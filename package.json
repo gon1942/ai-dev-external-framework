@@ -1,0 +1,36 @@
+{
+  "name": "@gon1942/ai-dev-external-framework",
+  "version": "0.8.1",
+  "private": false,
+  "description": "Cross-agent external skills installer, session status hooks and task tracking for OpenCode, Codex and Claude Code",
+  "bin": {
+    "ai-dev": "bin/ai-dev.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js && python3 -m unittest discover -s test -p \"test_*.py\"",
+    "prepack": "npm test",
+    "publish:check": "node scripts/publish-check.cjs && npm pack --dry-run --json"
+  },
+  "license": "MIT",
+  "files": [
+    "bin/",
+    "lib/",
+    "scripts/",
+    "templates/",
+    "adapters/",
+    "external-skills/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "agent-skills",
+    "opencode",
+    "codex",
+    "claude-code",
+    "workflow",
+    "task-graph"
+  ]
+}

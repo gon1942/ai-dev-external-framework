@@ -1,0 +1,37 @@
+{
+  "profiles": {
+    "web": {
+      "patterns": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "web/**",
+        "src/*.ts",
+        "src/*.tsx"
+      ],
+      "checks": {
+        "lint": [
+          "npm",
+          "run",
+          "lint"
+        ],
+        "test": [
+          "npm",
+          "test"
+        ]
+      }
+    },
+    "python": {
+      "patterns": [
+        "**/*.py",
+        "*.py"
+      ],
+      "checks": {
+        "unit": [
+          "python3",
+          "-m",
+          "pytest"
+        ]
+      }
+    }
+  }
+}
