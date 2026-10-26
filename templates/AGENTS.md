@@ -1,6 +1,6 @@
 # Shared AI development workflow — OpenCode / Codex / Claude Code
 
-**Use upstream installed skills** (Matt Pocock and Superpowers), not home-grown substitutes. CRG is independently managed. Apply this file in all three agents; actual skill discovery/activation must be verified in each host.
+**Use upstream installed skills** (Matt Pocock and Superpowers), not home-grown substitutes. CRG is installed by this framework by default (unless --skip-crg); verify availability before use. Apply this file in all three agents; actual skill discovery/activation must be verified in each host.
 
 ## On every new user development request / resumed session
 1. **At the start of EVERY NEW AGENT SESSION, before planning or coding**, run `node .ai-dev/session-status.cjs` from the project root. Display the active task summary to the user (ID, phase, next action), even if the user has not asked for a new task. Read applicable task files and resume rather than duplicating. This is required for OpenCode, Codex, and Claude Code. If invocation is unavailable, say the session check was not performed; never claim it ran.
@@ -14,10 +14,13 @@
 9. For all stages, keep user interaction **natural-language only**; CLI is internal agent tooling. On session changes, any of the three agents resumes the same project files.
 
 ## External skill mapping
-Analyze: `grill-with-docs`, `systematic-debugging`, CRG if installed. Plan: `to-spec`, `to-tickets`, `writing-plans`. Implement: `implement`, `test-driven-development`, optional `implement-spec` only with compatible host runtime. Verify: `verification-before-completion`. Review: `code-review`, `requesting-code-review`.
+Analyze: `grill-with-docs`, `systematic-debugging`, CRG MCP graph tools when installed; build the graph once source is present. Plan: `to-spec`, `to-tickets`, `writing-plans`. Implement: `implement`, `test-driven-development`, optional `implement-spec` only with compatible host runtime. Verify: `verification-before-completion`. Review: `code-review`, `requesting-code-review`.
 
 ## Boundaries
 No automatic commit, push, merge, or PR; never invent test/review evidence. An ambiguous 'yes' not clearly responding to a specific approval question is not consent. Agent runs no approval command on inference, and never claims person identity is verified. The CLI gates are structural; AC semantic adequacy and independent-review authenticity require critical inspection. If original skills aren't available, report that; don't claim successful invocation.
 
 ## Native session status hooks
-`npx --yes @gon1942/ai-dev-external-framework@0.8.2 setup` installs read-only SessionStart hooks (OpenCode plugin, Codex and Claude hook configs). Agents must report the injected work-state to user once per new session and read the work files before edits. Session status is a snapshot, not proof of current test evidence. Do not create a task just because a session starts.
+`npx --yes @gon1942/ai-dev-external-framework@0.8.3 setup` installs read-only SessionStart hooks (OpenCode plugin, Codex and Claude hook configs). Agents must report the injected work-state to user once per new session and read the work files before edits. Session status is a snapshot, not proof of current test evidence. Do not create a task just because a session starts.
+
+## Code Review Graph (CRG)
+During analysis or review of an existing codebase, check CRG MCP tools first. If the code graph has not been built, run the installed CRG CLI `build` in the project root. If unavailable or indexing fails, report it and fall back to ordinary code inspection. Do not claim CRG was used unless it was actually invoked.
