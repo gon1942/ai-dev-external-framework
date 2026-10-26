@@ -189,6 +189,29 @@ my-project/
 
 **주의:** Ponytail은 이 패키지에서 **스킬 파일만 설치**합니다. 원본 Ponytail의 별도 플러그인, 실행 Hook, 모드 전환 등은 자동으로 활성화되지 않습니다. Superpowers나 다른 원본 저장소의 런타임 플러그인도 이 설치 도구가 자동으로 완성해 주는 것은 아닙니다.
 
+### 단계별 스킬 사용 안내
+
+각 개발 단계에서 에이전트가 사용하는 스킬입니다. 프로젝트에 설치되는 `AGENTS.md`의 스킬 매핑 기준이며, 스킬 호출은 호스트 에이전트의 스킬 기능을 통해 실제로 이루어져야 합니다.
+
+| 단계 | 사용 스킬 | 역할 |
+|---|---|---|
+| **분석** (요구사항·원인 파악) | `grill-with-docs`, `brainstorming` | 질문·토론으로 요구사항과 설계 방향 구체화 |
+| | `diagnosing-bugs`, `systematic-debugging` | 버그 원인 추적 및 체계적 분석 |
+| **계획** (명세·작업 분해) | `to-spec` | 요구사항을 명세·인수 조건으로 정리 |
+| | `to-tickets` | 명세를 실행 가능한 작업으로 분해 |
+| | `writing-plans` | 구현 계획 작성 |
+| **구현** | `implement` | 정의된 작업의 구현 |
+| | `implement-spec` | 명세 기반 구현 (호환 런타임에서 선택적) |
+| | `test-driven-development` | 실패 테스트 → 구현 → 개선 흐름 |
+| | `using-git-worktrees`, `subagent-driven-development` | 독립 작업 공간·하위 에이전트 분담 (상황별) |
+| **검증** | `verification-before-completion` | 완료 선언 전 실제 실행 검증 |
+| **리뷰** | `code-review`, `requesting-code-review` | 변경 사항 검토 및 리뷰 요청 |
+| | `receiving-code-review` | 리뷰 결과 확인 및 반영 |
+| **완료 후** | `retro` | 작업 결과 회고 |
+| **전 단계 보조** | `ponytail` | 최소 변경·검증 중심의 작업 습관 지침 |
+
+CRG(Code Review Graph)는 이 표의 스킬 목록(18개)에 포함되지 않는 별도의 MCP 도구이며, 설치된 경우 분석·리뷰 단계에서 코드 그래프 구축 및 조회에 사용할 수 있습니다.
+
 ## 5. 실제 개발 작업 흐름
 
 사용자는 자연어로 요청하고, 에이전트가 프로젝트에 설치된 스킬과 로컬 `workflow.py`를 이용해 각 단계를 수행하는 방식입니다.
