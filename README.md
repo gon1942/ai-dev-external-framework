@@ -2,8 +2,6 @@
 
 **OpenCode · Codex · Claude Code에서 동일한 개발 절차를 적용하기 위한 외부 스킬 기반 공통 프레임워크**
 
-> 버전: **0.9.4** · npm 패키지: **`@gon1942/ai-dev-external-framework`**
-> 이 프로젝트는 별도의 AI 코딩 에이전트가 아니라, 기존 에이전트에 **원본 외부 스킬·작업 기록·검증 게이트·세션 상태 확인 설정·중앙 스킬 정책**을 추가하는 설치 도구입니다.
 
 ## 목차
 
@@ -66,7 +64,7 @@ AI 코딩 에이전트로 작업하면 도구마다 계획서 형식이 다르�
 ### 새 프로젝트에 설치
 
 ```bash
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 init my-project
+npx --yes @gon1942/ai-dev-external-framework@ init my-project
 cd my-project
 ```
 
@@ -105,7 +103,7 @@ opencode
 
 ```bash
 cd /path/to/existing-project
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 init .
+npx --yes @gon1942/ai-dev-external-framework@ init .
 ```
 
 기존 `AGENTS.md`가 있으면 보존합니다. 프레임워크 작업 지침이 자동 병합되지는 않으므로 설치 메시지와 파일 내용을 확인하세요. 관리 대상으로 취급되는 일부 파일이 이미 존재하며 내용이 다른 경우, 무단 덮어쓰기 대신 충돌 오류가 발생할 수 있습니다.
@@ -113,7 +111,7 @@ npx --yes @gon1942/ai-dev-external-framework@0.9.4 init .
 ### 설치 미리보기
 
 ```bash
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 init my-project --dry-run
+npx --yes @gon1942/ai-dev-external-framework@ init my-project --dry-run
 ```
 
 파일 변경과 원본 저장소 다운로드를 수행하지 않고 설치 예정 동작을 출력합니다. 새로 생성할 프로젝트라면 전체 파일 목록 대신 예상 동작만 표시될 수 있습니다.
@@ -242,7 +240,7 @@ Microsoft 공식 **Playwright CLI + `playwright-cli` 스킬**을 기본 설치 �
 
 ```bash
 # 기존 프로젝트에 Playwright만 설치
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 install-playwright --project . --agents all
+npx --yes @gon1942/ai-dev-external-framework@ install-playwright --project . --agents all
 
 # 프로젝트 내부 실행 파일 사용
 .ai-dev/playwright/node_modules/.bin/playwright-cli --help
@@ -382,7 +380,7 @@ v0.9.0부터 세션 시작 시 **세 에이전트별 설치·미설치 원본 �
 
 ```bash
 # 미설치 항목만 복구 (별도 실행; 필요 시 네트워크/Python 사용)
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 repair-deps --project . --agents all
+npx --yes @gon1942/ai-dev-external-framework@ repair-deps --project . --agents all
 ```
 
 OpenCode 플러그인과 Claude/Codex Hook 설정 파일을 생성하지만, **각 호스트의 현재 버전에서 자동 실행되는지는 별도 확인이 필요**합니다. 특히 설정 파일이 있다는 사실만으로 실시간 Hook 동작이 검증된 것은 아닙니다.
@@ -393,36 +391,36 @@ OpenCode 플러그인과 Claude/Codex Hook 설정 파일을 생성하지만, **�
 
 ```bash
 # 사용 가능한 명령 보기
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 --help
+npx --yes @gon1942/ai-dev-external-framework@ --help
 
 # 프로젝트 생성 + 설정 + 원본 외부 스킬 설치
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 init my-project
+npx --yes @gon1942/ai-dev-external-framework@ init my-project
 
 # 기존 프로젝트에 공통 설정·Hook 설치 (스킬 다운로드는 별도)
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 setup --project . --agents all
+npx --yes @gon1942/ai-dev-external-framework@ setup --project . --agents all
 
 # 원본 스킬 별도 설치
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 install-skills --project . --agents all
+npx --yes @gon1942/ai-dev-external-framework@ install-skills --project . --agents all
 
 # 원본 스킬 + CRG + Playwright 설치 상태 확인 (읽기 전용)
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 check-deps --project .
+npx --yes @gon1942/ai-dev-external-framework@ check-deps --project .
 
 # 누락 항목만 설치·복구
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 repair-deps --project . --agents all
+npx --yes @gon1942/ai-dev-external-framework@ repair-deps --project . --agents all
 
 # CRG / Playwright 개별 설치·재시도
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 install-crg --project . --agents all
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 install-playwright --project . --agents all
+npx --yes @gon1942/ai-dev-external-framework@ install-crg --project . --agents all
+npx --yes @gon1942/ai-dev-external-framework@ install-playwright --project . --agents all
 
 # 상태 조회 / 설치 파일 점검
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 status --project .
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 doctor --project .
+npx --yes @gon1942/ai-dev-external-framework@ status --project .
+npx --yes @gon1942/ai-dev-external-framework@ doctor --project .
 
 # 기존 v0.8.x 프로젝트의 세션 보고 지침 갱신
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 upgrade-session-report --project .
+npx --yes @gon1942/ai-dev-external-framework@ upgrade-session-report --project .
 
 # 과거 AGENTS.md의 세션 명령 복구
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 repair-session --project .
+npx --yes @gon1942/ai-dev-external-framework@ repair-session --project .
 ```
 
 | 명령 | 설명 | 참고 |
@@ -453,10 +451,10 @@ npx --yes @gon1942/ai-dev-external-framework@0.9.4 repair-session --project .
 cd /path/to/my-project
 
 # 변경 예상 확인
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 repair-session --dry-run
+npx --yes @gon1942/ai-dev-external-framework@ repair-session --dry-run
 
 # AGENTS.md의 알려진 구버전 명령 교체
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 repair-session
+npx --yes @gon1942/ai-dev-external-framework@ repair-session
 
 # 복구된 로컬 명령 직접 검증
 node .ai-dev/session-status.cjs
@@ -470,8 +468,8 @@ node .ai-dev/session-status.cjs
 
 ```bash
 cd /path/to/my-project
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 upgrade-session-report --dry-run
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 upgrade-session-report
+npx --yes @gon1942/ai-dev-external-framework@ upgrade-session-report --dry-run
+npx --yes @gon1942/ai-dev-external-framework@ upgrade-session-report
 node .ai-dev/session-status.cjs
 ```
 
@@ -482,14 +480,14 @@ node .ai-dev/session-status.cjs
 기존 설치 프로젝트에 `/skill-manager` 명령 파일과 `.ai-dev/skill-manager.cjs`가 없다면 `setup`으로 추가할 수 있습니다. 기존 파일 내용이 달라 설치 충돌이 있을 수 있으므로 먼저 `--dry-run`으로 확인하세요.
 
 ```bash
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 setup --project . --agents all --dry-run
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 setup --project . --agents all
+npx --yes @gon1942/ai-dev-external-framework@ setup --project . --agents all --dry-run
+npx --yes @gon1942/ai-dev-external-framework@ setup --project . --agents all
 ```
 
 ### 원본 스킬 갱신
 
 ```bash
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 install-skills --project . --agents all --update
+npx --yes @gon1942/ai-dev-external-framework@ install-skills --project . --agents all --update
 ```
 
 이 명령은 프레임워크가 이전에 설치했고 이후 수정되지 않은 관리 대상에 한해 업데이트를 허용합니다. 직접 수정한 스킬 파일을 덮어쓰는 용도로 사용하지 마세요.
@@ -549,13 +547,13 @@ npm run publish:check
 
 ```bash
 # 신규 설치는 설치본의 정책을 자동 복사
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 init my-project
+npx --yes @gon1942/ai-dev-external-framework@ init my-project
 
 # 기존 프로젝트는 새 버전의 승인 정책을 동기화
 cd my-project
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 skill sync --project . --dry-run
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 skill sync --project . --install-custom
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 skill show-stage review
+npx --yes @gon1942/ai-dev-external-framework@ skill sync --project . --dry-run
+npx --yes @gon1942/ai-dev-external-framework@ skill sync --project . --install-custom
+npx --yes @gon1942/ai-dev-external-framework@ skill show-stage review
 ```
 
 **제한 사항:** `skill sync`는 승인된 단계별 정책 파일과 등록된 사용자 Git 스킬의 누락 설치를 반영합니다. 기존 18개 스킬과 CRG를 대체하거나 제거하는 전체 생명주기 관리, 타사 MCP 연결의 자동 검증, 개별 에이전트별 동작 보장은 아직 구현되지 않았습니다. 프레임워크 배포 버전을 지정해야 중앙 정책이 동일하게 유지됩니다. 프로젝트 정책의 수동 변경은 해시 검사에서 차단하며, 기존 정책은 `.bak`으로 백업됩니다.
@@ -579,7 +577,7 @@ node .ai-dev/skill-manager.cjs stage list verify
 ### 오프라인 설치
 
 ```bash
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 init my-project \
+npx --yes @gon1942/ai-dev-external-framework@ init my-project \
   --source-dir /path/to/three-repos
 ```
 
@@ -609,7 +607,7 @@ npx --yes @gon1942/ai-dev-external-framework@0.9.4 init my-project \
 위 `<...>` 값은 예시 자리표시자이므로 **실제 SHA로 교체한 뒤** 사용하세요.
 
 ```bash
-npx --yes @gon1942/ai-dev-external-framework@0.9.4 init my-project --pins pins.json
+npx --yes @gon1942/ai-dev-external-framework@ init my-project --pins pins.json
 ```
 
 설치 기록은 프로젝트 루트의 `.external-skills-lock.json`에 저장됩니다. 이 파일은 어떤 원본 리비전과 파일이 설치되었는지 추적하는 데 유용합니다.
@@ -631,7 +629,7 @@ node .ai-dev/session-status.cjs
 먼저 패키지 이름·버전·Registry를 확인하세요.
 
 ```bash
-npm view @gon1942/ai-dev-external-framework@0.9.4 version \
+npm view @gon1942/ai-dev-external-framework@ version \
   --registry=https://registry.npmjs.org/
 npm config get registry
 ```
@@ -696,10 +694,10 @@ npm login
 npm publish --access public
 ```
 
-패키지 이름은 `package.json`의 `@gon1942/ai-dev-external-framework`입니다. 동일한 **이름 + 버전 조합은 npm에 다시 배포할 수 없습니다.** README만 수정했더라도 이미 `0.9.4`를 게시했다면 버전을 올린 뒤 배포해야 합니다.
+패키지 이름은 `package.json`의 `@gon1942/ai-dev-external-framework`입니다. 동일한 **이름 + 버전 조합은 npm에 다시 배포할 수 없습니다.** README만 수정했더라도 이미 ``를 게시했다면 버전을 올린 뒤 배포해야 합니다.
 
 ```bash
-# 같은 0.9.4 버전이 이미 배포됐다면 버전을 올린 뒤 게시
+# 같은  버전이 이미 배포됐다면 버전을 올린 뒤 게시
 npm version patch --no-git-tag-version
 npm test
 npm run publish:check
@@ -726,7 +724,7 @@ npm view @gon1942/ai-dev-external-framework version \
 | 0.9.1 | 대화형 중앙 스킬 관리자(`skill manage`) |
 | 0.9.2 | 간편 스킬 관리자(번호 선택·`skill dashboard`) |
 | 0.9.3 | Playwright CLI 기본 설치(20번째 구성 요소), `install-playwright` — 0.9.0~0.9.2 변경사항을 포함해 최초 npm 배포한 0.9.x 버전 |
-| 0.9.4 | 신규 프로젝트에 `/skill-manager` 명령·로컬 스킬 관리 CLI 자동 설치 |
+|  | 신규 프로젝트에 `/skill-manager` 명령·로컬 스킬 관리 CLI 자동 설치 |
 
 참고:
 
