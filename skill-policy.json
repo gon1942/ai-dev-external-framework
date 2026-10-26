@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "0.9.3",
+  "skills": {
+    "grill-with-docs": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "to-spec": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "to-tickets": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "implement": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "implement-spec": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "code-review": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "retro": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "diagnosing-bugs": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "brainstorming": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "writing-plans": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "test-driven-development": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "systematic-debugging": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "verification-before-completion": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "requesting-code-review": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "receiving-code-review": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "using-git-worktrees": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "subagent-driven-development": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "ponytail": {
+      "kind": "upstream",
+      "source": "ponytail",
+      "enabled": true
+    },
+    "code-review-graph": {
+      "kind": "crg",
+      "source": "code-review-graph",
+      "enabled": true
+    },
+    "playwright-cli": {
+      "kind": "playwright",
+      "source": "microsoft/playwright",
+      "package": "@playwright/cli",
+      "enabled": true
+    }
+  },
+  "stages": {
+    "analyze": [
+      {
+        "id": "grill-with-docs",
+        "mode": "recommended"
+      },
+      {
+        "id": "brainstorming",
+        "mode": "recommended"
+      },
+      {
+        "id": "diagnosing-bugs",
+        "mode": "recommended"
+      },
+      {
+        "id": "systematic-debugging",
+        "mode": "recommended"
+      },
+      {
+        "id": "code-review-graph",
+        "mode": "recommended"
+      }
+    ],
+    "plan": [
+      {
+        "id": "to-spec",
+        "mode": "recommended"
+      },
+      {
+        "id": "to-tickets",
+        "mode": "recommended"
+      },
+      {
+        "id": "writing-plans",
+        "mode": "recommended"
+      },
+      {
+        "id": "code-review-graph",
+        "mode": "recommended"
+      }
+    ],
+    "implement": [
+      {
+        "id": "implement",
+        "mode": "recommended"
+      },
+      {
+        "id": "implement-spec",
+        "mode": "recommended"
+      },
+      {
+        "id": "test-driven-development",
+        "mode": "recommended"
+      },
+      {
+        "id": "ponytail",
+        "mode": "recommended"
+      },
+      {
+        "id": "subagent-driven-development",
+        "mode": "recommended"
+      }
+    ],
+    "verify": [
+      {
+        "id": "verification-before-completion",
+        "mode": "recommended"
+      },
+      {
+        "id": "systematic-debugging",
+        "mode": "recommended"
+      },
+      {
+        "id": "code-review-graph",
+        "mode": "recommended"
+      },
+      {
+        "id": "playwright-cli",
+        "mode": "conditional"
+      }
+    ],
+    "review": [
+      {
+        "id": "code-review",
+        "mode": "recommended"
+      },
+      {
+        "id": "requesting-code-review",
+        "mode": "recommended"
+      },
+      {
+        "id": "receiving-code-review",
+        "mode": "recommended"
+      },
+      {
+        "id": "code-review-graph",
+        "mode": "recommended"
+      }
+    ],
+    "complete": [
+      {
+        "id": "retro",
+        "mode": "recommended"
+      }
+    ]
+  }
+}

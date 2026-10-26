@@ -10,7 +10,7 @@ test('one-command init creates project and installs all 18 original-layout fixtu
  try{
   const groups={mattpocock:['grill-with-docs','to-spec','to-tickets','implement','implement-spec','code-review','retro','diagnosing-bugs'],superpowers:['brainstorming','writing-plans','test-driven-development','systematic-debugging','verification-before-completion','requesting-code-review','receiving-code-review','using-git-worktrees','subagent-driven-development'],ponytail:['ponytail']};
   for(const [vendor,skills] of Object.entries(groups))for(const name of skills){const d=path.join(base,'source',vendor,'skills',name);fs.mkdirSync(d,{recursive:true});fs.writeFileSync(path.join(d,'SKILL.md'),`---\nname: ${name}\ndescription: fixture\n---\n\nFixture\n`)}
-  const dest=path.join(base,'project');const r=execute(['init',dest,'--source-dir',path.join(base,'source'),'--skip-crg']);
+  const dest=path.join(base,'project');const r=execute(['init',dest,'--source-dir',path.join(base,'source'),'--skip-crg','--skip-playwright']);
   assert.equal(r.status,0,r.stderr);assert.match(r.stdout,/INIT COMPLETE/);
   assert.ok(fs.existsSync(path.join(dest,'AGENTS.md')));
   for(const location of ['.agents/skills','.opencode/skills','.claude/skills'])assert.equal(fs.readdirSync(path.join(dest,location)).length,18);
