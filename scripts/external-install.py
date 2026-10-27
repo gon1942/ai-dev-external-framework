@@ -5,7 +5,7 @@ import argparse, json, shutil, subprocess, tempfile, pathlib, hashlib, datetime,
 ROOT=pathlib.Path(__file__).resolve().parent.parent
 CATALOG={
 'mattpocock':('https://github.com/mattpocock/skills.git', ['grill-with-docs','to-spec','to-tickets','implement','implement-spec','code-review','retro','diagnosing-bugs']),
-'superpowers':('https://github.com/obra/superpowers.git', ['brainstorming','writing-plans','test-driven-development','systematic-debugging','verification-before-completion','requesting-code-review','receiving-code-review','using-git-worktrees','subagent-driven-development']),
+'superpowers':('https://github.com/obra/superpowers.git', ['brainstorming','writing-plans','test-driven-development','systematic-debugging','verification-before-completion','requesting-code-review','receiving-code-review','using-git-worktrees','subagent-driven-development','using-superpowers']),
 'ponytail':('https://github.com/DietrichGebert/ponytail.git', ['ponytail']),
 }
 

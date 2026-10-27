@@ -30,14 +30,14 @@ test('missing required upstream skill fails atomically, no installed copies or l
   assert.equal(fs.existsSync(path.join(p,'.agents/skills')),false);
  }finally{fs.rmSync(p,{recursive:true,force:true});fs.rmSync(src,{recursive:true,force:true})}
 });
-test('offline full fixture installs 18 upstream skill directories per agent and is idempotent',()=>{
+test('offline full fixture installs 19 upstream skill directories per agent and is idempotent',()=>{
  const p=temp();const src=temp();try{
-  const groups={mattpocock:['grill-with-docs','to-spec','to-tickets','implement','implement-spec','code-review','retro','diagnosing-bugs'],superpowers:['brainstorming','writing-plans','test-driven-development','systematic-debugging','verification-before-completion','requesting-code-review','receiving-code-review','using-git-worktrees','subagent-driven-development'],ponytail:['ponytail']};
+  const groups={mattpocock:['grill-with-docs','to-spec','to-tickets','implement','implement-spec','code-review','retro','diagnosing-bugs'],superpowers:['brainstorming','writing-plans','test-driven-development','systematic-debugging','verification-before-completion','requesting-code-review','receiving-code-review','using-git-worktrees','subagent-driven-development','using-superpowers'],ponytail:['ponytail']};
   for(const [vendor,skills] of Object.entries(groups))for(const name of skills){const d=path.join(src,vendor,'skills',name);fs.mkdirSync(d,{recursive:true});fs.writeFileSync(path.join(d,'SKILL.md'),`---\nname: ${name}\ndescription: fixture\n---\n\nFixture instructions\n`)}
   const args=[path.resolve(__dirname,'../scripts/external-install.py'),'--project',p,'--agents','all','--source-dir',src];
   let r=spawnSync('python3',args,{encoding:'utf8'});assert.equal(r.status,0,r.stderr);
-  for(const dest of ['.agents/skills','.opencode/skills','.claude/skills'])assert.equal(fs.readdirSync(path.join(p,dest)).length,18);
-  assert.equal(Object.keys(JSON.parse(fs.readFileSync(path.join(p,'.external-skills-lock.json'))).files).length,54);
-  r=spawnSync('python3',args,{encoding:'utf8'});assert.equal(r.status,0,r.stderr);assert.equal((r.stdout.match(/SKIP IDENTICAL/g)||[]).length,54);
+  for(const dest of ['.agents/skills','.opencode/skills','.claude/skills'])assert.equal(fs.readdirSync(path.join(p,dest)).length,19);
+  assert.equal(Object.keys(JSON.parse(fs.readFileSync(path.join(p,'.external-skills-lock.json'))).files).length,57);
+  r=spawnSync('python3',args,{encoding:'utf8'});assert.equal(r.status,0,r.stderr);assert.equal((r.stdout.match(/SKIP IDENTICAL/g)||[]).length,57);
  }finally{fs.rmSync(p,{recursive:true,force:true});fs.rmSync(src,{recursive:true,force:true})}
 });

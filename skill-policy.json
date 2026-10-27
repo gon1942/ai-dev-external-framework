@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "policyVersion": "0.9.3",
+  "policyVersion": "1.0.1",
   "skills": {
     "grill-with-docs": {
       "kind": "upstream",
@@ -102,10 +102,19 @@
       "source": "microsoft/playwright",
       "package": "@playwright/cli",
       "enabled": true
+    },
+    "using-superpowers": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
     }
   },
   "stages": {
     "analyze": [
+      {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
       {
         "id": "grill-with-docs",
         "mode": "recommended"
@@ -129,6 +138,10 @@
     ],
     "plan": [
       {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
+      {
         "id": "to-spec",
         "mode": "recommended"
       },
@@ -146,6 +159,10 @@
       }
     ],
     "implement": [
+      {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
       {
         "id": "implement",
         "mode": "recommended"
@@ -169,6 +186,10 @@
     ],
     "verify": [
       {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
+      {
         "id": "verification-before-completion",
         "mode": "recommended"
       },
@@ -187,6 +208,10 @@
     ],
     "review": [
       {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
+      {
         "id": "code-review",
         "mode": "recommended"
       },
@@ -204,6 +229,10 @@
       }
     ],
     "complete": [
+      {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
       {
         "id": "retro",
         "mode": "recommended"
