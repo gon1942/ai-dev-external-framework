@@ -1,3 +1,3 @@
-# Frontend conventions
+# 프런트엔드 개발 규칙
 
-Document chosen frontend stack and interaction testing.
+선택한 프런트엔드 기술 스택과 사용자 상호작용 테스트 방법을 기록한다.

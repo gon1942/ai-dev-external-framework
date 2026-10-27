@@ -1,3 +1,3 @@
-# Architecture
+# 아키텍처
 
-Document actual module boundaries, dependencies and important interfaces here. Keep this file project-specific.
+프로젝트의 실제 모듈 경계, 의존성, 주요 인터페이스를 작성한다. 이 문서는 프로젝트별로 관리한다.

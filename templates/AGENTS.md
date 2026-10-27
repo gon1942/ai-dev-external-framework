@@ -1,35 +1,54 @@
-## 공통 메타 스킬: using-superpowers (21개 구성 중 1개)
+# AGENTS.md — AI 개발 공통 진입점
 
-각 개발 단계 진입 시 `using-superpowers` 스킬이 설치되어 있으면 해당 에이전트의 공식 스킬 도구로 읽고, 해당 단계의 `.ai-dev/stage-skills.json` 배정과 작업 요청을 고려하여 다른 원본 스킬을 선택합니다. 이 스킬은 정책을 무시하거나 자동으로 외부 스킬을 설치·강제 실행하는 라우터가 아닙니다. 스킬 선택 이유와 실제 호출 여부를 `docs/exec-plans/active/<TASK-ID>/` 작업 기록에 **구분해** 기재합니다. 호출 여부는 확인 가능한 도구 기록이 없는 경우 자기 보고라고 명시합니다.
+> 적용 대상: OpenCode · Codex · Claude Code. 상세 규칙의 정본은 `docs/` 및 `.ai-dev/`에 있다.
 
-# Shared AI development workflow — OpenCode / Codex / Claude Code
+## 1. 불변 원칙
 
-**At the start of each development stage**, inspect `.ai-dev/stage-skills.json` and apply enabled stage assignments; do not invoke disabled skills. Project policy is centrally released and may only be updated by approved `skill sync`. The file defines eligibility, not proof a skill executed.
+- 요청 범위 외 변경 금지. 기존 작업 상태와 검증 근거를 확인하고 이어서 수행한다.
+- 계획 승인 전 구현 금지. 사용자 확인 없이 최종 완료 처리 금지.
+- 승인 없이 commit·push·merge 금지.
+- 실제 실행 증거 없는 검증·리뷰 PASS 및 완료 선언 금지.
+- 민감정보(비밀번호·API 키·토큰·`.env` 값) 출력·기록·커밋 금지.
+- 외부 스킬의 설치·선택·실제 호출을 구분하고, 미실행 도구를 실행했다고 보고하지 않는다.
 
-**Use upstream installed skills** (Matt Pocock and Superpowers), not home-grown substitutes. CRG is a required 19th dependency (CLI/MCP rather than a standalone SKILL.md); verify availability before use. Apply this file in all three agents; actual skill discovery/activation must be verified in each host.
+## 2. 세션 시작
 
-## On every new user development request / resumed session
-1. **At the start of EVERY NEW AGENT SESSION, before planning or coding**, run `node .ai-dev/dependency-check.cjs` and then `node .ai-dev/session-status.cjs` from the project root. **In the chat response for every new session (including a greeting like 안녕), report all three agents' installed skill counts AND actual installed skill names AND missing skill names, plus CRG AND Playwright CLI status, followed by active tasks.** Use the checker's actual output; never assume 19/19 or CRG success. Do not omit the dependency report when there are no active tasks. The checklist must appear in the visible conversational reply, not only in logs, toast, hidden reasoning, or hook output. Read applicable task files and resume rather than duplicating. This is required for OpenCode, Codex, and Claude Code. If invocation is unavailable, say the session check was not performed; never claim it ran.
-2. If dependency-check reports missing items, the **agent** should execute `npx --yes @gon1942/ai-dev-external-framework@1.0.1 repair-deps --project . --agents all`, with user approval if the host requires network/installation permission. Report failures and do not claim installation succeeded. Run the checker again afterward and report the updated installed/missing list and CRG result to the user. Avoid installing on healthy sessions. If npm/network is unavailable, report missing items and continue without claiming them. Read `docs/PLANS.md`, `docs/ai-workflow/POLICY.md`, and the applicable task files. Invoke upstream skills through the host's skill tool; merely reading SKILL.md is not equivalent to invoking a skill.
-3. If a new substantive request, **agent** creates task using `python3 scripts/workflow.py new --id TASK-... --title '...'`. Agent writes analysis.md, spec.md, plan.md, ac-tests.json using original upstream skills.
-4. Summarize plan and explicitly ask the human for approval. **Do not run approve before human approval.** An explicit natural-language approval (e.g. '계획 승인', '진행해') in response to the presented plan allows the **agent** to run `python3 scripts/workflow.py approve --id TASK-... --user-confirmed`. No person needs to type CLI commands.
-5. Before editing source, **agent** runs `python3 scripts/workflow.py gate --id TASK-... --stage implement`. Use upstream TDD/implementation skills. Never bypass a failed gate.
-6. **Agent** runs tests through `workflow.py run --id TASK-... --ac AC-.. -- <command>`, reviews real logs, and checks `workflow.py gate --id TASK-... --stage review`. Failed/insufficient coverage: fix and rerun.
-7. Invoke original `code-review` / reviewer skill in an independent context where possible, evaluate diff+spec+evidence; write substantial notes and **agent** records `workflow.py review --id TASK-... --verdict PASS|FAIL --notes-file <path>`. A recorded verdict is not proof of reviewer independence.
-8. When `workflow.py gate --id TASK-... --stage complete` passes, report `READY_FOR_REVIEW` and ask human to confirm completion. Only after explicit human confirmation may **agent** call `workflow.py complete --id TASK-... --user-confirmed`. No self-approval.
-9. For all stages, keep user interaction **natural-language only**; CLI is internal agent tooling. On session changes, any of the three agents resumes the same project files.
+프로젝트 루트에서 실행한다.
 
-## External skill mapping
-Analyze: `grill-with-docs`, `systematic-debugging`, CRG MCP graph tools when installed; build the graph once source is present. Plan: `to-spec`, `to-tickets`, `writing-plans`. Implement: `implement`, `test-driven-development`, optional `implement-spec` only with compatible host runtime. Verify: `verification-before-completion`. Review: `code-review`, `requesting-code-review`.
+```bash
+node .ai-dev/dependency-check.cjs
+node .ai-dev/session-status.cjs
+python3 scripts/workflow.py session
+```
 
-## Boundaries
-No automatic commit, push, merge, or PR; never invent test/review evidence. An ambiguous 'yes' not clearly responding to a specific approval question is not consent. Agent runs no approval command on inference, and never claims person identity is verified. The CLI gates are structural; AC semantic adequacy and independent-review authenticity require critical inspection. If original skills aren't available, report that; don't claim successful invocation.
+실제 출력에 따라 에이전트별 설치·누락 스킬, CRG·Playwright 확인 상태, 활성 작업 및 미완료 항목을 사용자에게 보고한다. 실행 오류를 성공으로 간주하지 않는다. 새 세션 자체를 이유로 작업을 생성·승인·완료하지 않는다.
 
-## Native session status hooks
-`npx --yes @gon1942/ai-dev-external-framework@0.9.3 setup` installs read-only SessionStart hooks (OpenCode plugin, Codex and Claude hook configs). Agents must report the injected work-state to user once per new session and read the work files before edits. Session status is a snapshot, not proof of current test evidence. Do not create a task just because a session starts.
+## 3. 작업 흐름
 
-## Code Review Graph (CRG)
-During analysis or review of an existing codebase, check CRG MCP tools first. If the code graph has not been built, run the installed CRG CLI `build` in the project root. If unavailable or indexing fails, report it and fall back to ordinary code inspection. Do not claim CRG was used unless it was actually invoked.
+**Analyze → Plan → Implement → Verify → Review → Complete**
 
-## Playwright browser verification (20th default component)
-`playwright-cli` is a conditional Verify-stage skill for web UI changes. Check local `.ai-dev/playwright/node_modules/.bin/playwright-cli` and the agent SKILL.md before invoking it. Verify real browser actions with observed outcomes, record evidence, and do not claim browser execution from skill installation alone. If missing, run the framework `repair-deps` with permission and recheck.
+- 작업·승인·단계별 절차: `docs/PLANS.md`
+- 승인·보안·검증 정책: `docs/ai-workflow/POLICY.md`
+- 단계별 스킬 배정: `.ai-dev/stage-skills.json`
+- 실제 작업 제어 및 명령 확인: `python3 scripts/workflow.py --help`
+
+
+각 단계 진입 시 적용 지침과 활성 원본 스킬을 확인한다. `using-superpowers`가 설치되어 있으면 적용 가능성을 판단하되, 스킬 선택과 실제 호출을 구분한다. 단계 게이트와 검증 증거가 문서상 선언에 우선한다.
+
+## 4. 사용자 보고
+
+각 단계 종료 시 `docs/ai-workflow/STAGE-REPORTING.md`에 따라 사용자 대화에 현재 상태·완료·미완료·검증 근거·사용자 조치·다음 단계를 보고한다. 작업 파일 기록은 대화 보고를 대체하지 않는다.
+
+## 5. 문서 확인 시점
+
+| 정본 | 확인 시점 |
+|---|---|
+| `docs/PLANS.md` | 작업 시작·단계 전환 |
+| `docs/ai-workflow/POLICY.md` | 작업 시작·승인·보안 판단 |
+| `docs/ai-workflow/STAGE-REPORTING.md` | 단계 종료 |
+| `.ai-dev/stage-skills.json` | 단계 진입 |
+| `docs/ai-workflow/PROJECT-RULES.md` | 세션 시작·프로젝트 작업 전 |
+| `docs/ai-workflow/ENVIRONMENT.md` | 실행·구현·검증 전 |
+| `docs/ai-workflow/CODE-QUALITY.md` | Plan·Implement·Verify·Review 단계 |
+
+프로젝트 전용 문서는 존재 시 적용한다. 파일이 없거나 규칙이 충돌하면 추정하지 않고 보고한다. 프로젝트 지침은 공통 승인·보안·검증 원칙을 완화할 수 없다.

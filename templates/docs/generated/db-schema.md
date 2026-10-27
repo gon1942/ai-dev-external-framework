@@ -1,3 +1,3 @@
-# Generated schema (placeholder)
+# 데이터베이스 스키마 (자동 생성 문서 자리표시자)
 
-No schema extracted yet.
+아직 추출된 데이터베이스 스키마가 없다.

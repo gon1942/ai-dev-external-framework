@@ -1,3 +1,3 @@
-# Security
+# 보안 기준
 
-Document security requirements and prohibit secrets in logs.
+프로젝트별 보안 요구사항을 작성한다. 비밀값·토큰 등 민감정보를 로그나 문서에 기록하지 않는다.

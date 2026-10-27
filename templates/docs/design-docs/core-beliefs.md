@@ -1,3 +1,3 @@
-# Core beliefs
+# 핵심 설계 원칙
 
-Evidence precedes completion claims. Favor minimal, reversible changes.
+완료를 선언하기 전에 증거를 확보한다. 변경은 가능한 한 작게 유지하고 되돌릴 수 있도록 설계한다.

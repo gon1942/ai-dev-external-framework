@@ -1,3 +1,3 @@
-# Design principles
+# 설계 원칙
 
-Project-specific UI/UX and design constraints.
+프로젝트별 사용자 경험(UI/UX), 화면 설계 기준과 설계 제약을 기록한다.

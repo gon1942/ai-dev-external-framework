@@ -3,10 +3,12 @@
 const path=require('node:path');const {spawnSync}=require('node:child_process');const fs=require('node:fs');const {setup,installSkills}=require('../lib/install');
 const {init}=require('../lib/init');const {inspect,repair}=require('../lib/deps');const {installCrg}=require('../lib/crg');const {install:installPlaywright}=require('../lib/playwright');const {repairSession,upgradeSessionReport}=require('../lib/repair');const {sessionStatus,formatStatus}=require('../lib/status');
 const {manage,sync,stage,validate,load,DEFAULT,STAGES}=require('../lib/skill-manager');
+const {upgrade:upgradeReporting}=require('../lib/upgrade-reporting');
+const {upgrade:upgradeGuides}=require('../lib/upgrade-guides');
 const [command,...argv]=process.argv.slice(2);const get=(k,d)=>{const i=argv.indexOf(k);return i<0?d:argv[i+1]};const has=(k)=>argv.includes(k);const project=path.resolve(get('--project',process.cwd()));
 try{
- if(!command||['help','--help'].includes(command)){console.log(`ai-dev v0.9.4\n  init <PATH> [--agents all|opencode|codex|claude] [--dry-run] [--source-dir PATH] [--pins FILE] [--skip-crg] [--skip-playwright]\n  check-deps [--project PATH] [--agents all|...] [--json]\n  repair-deps [--project PATH] [--agents all|...] [--dry-run] [--source-dir PATH] [--pins FILE] [--skip-crg] [--skip-playwright]\n  install-playwright [--project PATH] [--agents all|opencode|codex|claude] [--dry-run]
-  install-crg [--project PATH] [--agents all|opencode|codex|claude] [--dry-run]\n  setup [--project PATH] [--agents all|opencode|codex|claude] [--dry-run]\n  install-skills [--project PATH] [--agents all|...] [--source-dir PATH] [--dry-run] [--update] [--pins FILE]\n  status [--project PATH] [--json]\n  repair-session [--project PATH] [--dry-run]\n  upgrade-session-report [--project PATH] [--dry-run]\n  skill manage [--policy PATH] (interactive manager)\n  skill dashboard [--policy PATH] (all stages overview)
+ if(!command||['help','--help'].includes(command)){console.log(`ai-dev v1.0.4\n  init <PATH> [--agents all|opencode|codex|claude] [--dry-run] [--source-dir PATH] [--pins FILE] [--skip-crg] [--skip-playwright]\n  check-deps [--project PATH] [--agents all|...] [--json]\n  repair-deps [--project PATH] [--agents all|...] [--dry-run] [--source-dir PATH] [--pins FILE] [--skip-crg] [--skip-playwright]\n  install-playwright [--project PATH] [--agents all|opencode|codex|claude] [--dry-run]
+  install-crg [--project PATH] [--agents all|opencode|codex|claude] [--dry-run]\n  upgrade-guides [--project PATH] [--dry-run] (add project docs; propose safe AGENTS.md replacement)\n  upgrade-reporting [--project PATH] [--dry-run] (safe managed reporting guidance update)\n  setup [--project PATH] [--agents all|opencode|codex|claude] [--dry-run]\n  install-skills [--project PATH] [--agents all|...] [--source-dir PATH] [--dry-run] [--update] [--pins FILE]\n  status [--project PATH] [--json]\n  repair-session [--project PATH] [--dry-run]\n  upgrade-session-report [--project PATH] [--dry-run]\n  skill manage [--policy PATH] (interactive manager)\n  skill dashboard [--policy PATH] (all stages overview)
   skill list | validate | add <id> <git-url> <sha> [skills/path] | disable|enable <id>
   skill stage list|add|remove|replace|mode <stage> [skill] [value]
   skill sync [--project PATH] [--install-custom] [--dry-run]
@@ -28,6 +30,8 @@ try{
  if(command!=='skill'&&(!fs.existsSync(project)||!fs.statSync(project).isDirectory()))throw Error('Project directory must exist: '+project);
  if(command==='check-deps'){const result=inspect(project,{agents:get('--agents','all')});console.log(JSON.stringify(result,null,2));if(!result.healthy)process.exitCode=1;}
  else if(command==='repair-deps'){const result=repair(project,{agents:get('--agents','all'),sourceDir:get('--source-dir',undefined),pins:get('--pins',undefined),dry:has('--dry-run'),skipCrg:has('--skip-crg'),skipPlaywright:has('--skip-playwright')});for(const a of result.actions)console.log(a);console.log('Dependency check:',JSON.stringify(result.after));}
+ else if(command==='upgrade-guides'){for(const a of upgradeGuides(project,{dry:has('--dry-run')}))console.log(a);}
+ else if(command==='upgrade-reporting'){for(const a of upgradeReporting(project,{dry:has('--dry-run')}))console.log(a);}
  else if(command==='setup'){for(const action of setup(project,{dry:has('--dry-run'),agents:get('--agents','all')}))console.log(action);console.log('Native hooks may need host trust approval; see README.');}
  else if(command==='install-playwright'){for(const line of installPlaywright(project,{agents:get('--agents','all'),dry:has('--dry-run')}))console.log(line);}
  else if(command==='install-crg'){for(const line of installCrg(project,{agents:get('--agents','all'),dry:has('--dry-run')}))console.log(line);}

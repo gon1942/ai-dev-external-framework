@@ -1,3 +1,3 @@
-# Design documentation
+# 설계 문서 목차
 
-Link architectural decisions and significant designs.
+주요 설계 의사결정과 중요한 설계 문서를 이곳에서 연결한다.

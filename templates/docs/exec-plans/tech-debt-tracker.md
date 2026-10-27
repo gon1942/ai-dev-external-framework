@@ -1,4 +1,4 @@
-# Technical debt
+# 기술 부채 관리
 
-| Item | Impact | Owner | Planned resolution |
+| 항목 | 영향 | 담당 | 해결 계획 |
 | --- | --- | --- | --- |

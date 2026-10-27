@@ -1,8 +1,8 @@
 ---
 name: framework-skill-admin
-description: Manage central AI Dev External Framework skill registry and stage assignments after human approval.
+description: 사용자 승인 후 중앙 AI Dev External Framework 스킬 목록과 단계별 배정을 관리한다.
 ---
 
-# Framework Skill Admin
+# 공통프레임워크 스킬 관리자
 
-Use from the **framework source repository**, not arbitrary downstream projects. Read root `AGENTS.md` and `skill-policy.json`. First show current stages using `node bin/ai-dev.js skill list`; compare changes and ask human approval. After approval, use `node bin/ai-dev.js skill add|disable|enable|stage ...`. Verify with `node bin/ai-dev.js skill validate`, `npm test`. Never publish or delete installed skills without explicit approval. Never claim CRG MCP operational merely from a registry entry.
+이 지침은 **공통프레임워크 소스 저장소에서만** 사용하며 일반 설치 프로젝트에는 적용하지 않는다. 루트 `AGENTS.md`와 `skill-policy.json`을 읽는다. `node bin/ai-dev.js skill list`로 현재 단계별 목록을 먼저 보여주고 변경 영향을 비교한 뒤 사용자 승인을 요청한다. 승인한 경우에만 `node bin/ai-dev.js skill add|disable|enable|stage ...`로 수정한다. `node bin/ai-dev.js skill validate` 및 `npm test`로 검증한다. 별도 승인 없이 배포하거나 설치된 스킬을 삭제하지 않는다. 중앙 목록에 CRG가 있다는 사실만으로 MCP가 실제 연결됐다고 주장하지 않는다.

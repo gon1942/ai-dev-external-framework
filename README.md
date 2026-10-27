@@ -298,69 +298,166 @@ my-project/
 
 이 문서들 중 일부는 초기 양식으로만 제공됩니다. 파일이 존재한다고 해당 기준이 이미 정의되거나 검증됐다는 뜻은 아닙니다.
 
-### 작업 생성 후의 구조 예시
+### 작업 생성 후의 docs 구조와 파일별 역할
+
+`docs/`는 모든 작업 문서를 한곳에 보관하지만, **프로젝트 공통 문서**와 **작업별 실행 기록**의 역할은 다릅니다.
+
+- **프로젝트 공통 문서:** `ai-workflow/`, `design-docs/`, `generated/`, `product-specs/`, `references/` 및 `docs/` 루트의 기준 문서. `init` 또는 `setup` 시 템플릿이 배치됩니다.
+- **개별 작업 문서:** `exec-plans/active/TASK-ID/`. 사용자 요청마다 `workflow.py new`로 생성되며 작업의 분석 → 계획 → 구현 → 검증 → 리뷰 → 완료 기록을 관리합니다.
+- **완료 문서:** `exec-plans/completed/TASK-ID/`. 검증·리뷰 조건과 **사용자 최종 승인**을 충족한 뒤 이동합니다.
+
+#### ① 프로젝트 설치 직후
 
 ```text
-
 my-project/
-
 └── docs/
-
-    ├── PLANS.md
-
-    ├── DESIGN.md, FRONTEND.md, PRODUCT_SENSE.md, QUALITY_SCORE.md, RELIABILITY.md, SECURITY.md
-
+    ├── PLANS.md                  # 작업 진행 절차와 workflow.py 운영 규칙
+    ├── DESIGN.md                 # 프로젝트 설계·UI/UX 기준 (초기 양식)
+    ├── FRONTEND.md               # 프런트엔드 기준 (초기 양식)
+    ├── PRODUCT_SENSE.md          # 제품 목표·사용자 가치 (초기 양식)
+    ├── QUALITY_SCORE.md          # 품질 평가 기준 (초기 양식)
+    ├── RELIABILITY.md            # 안정성·운영 기준 (초기 양식)
+    ├── SECURITY.md               # 보안 기준 (초기 양식)
     ├── ai-workflow/
-
-    │   ├── POLICY.md
-
-    │   └── EXTERNAL-SKILLS.md
-
+    │   ├── POLICY.md             # 승인·검증·보안 공통 정책
+    │   └── EXTERNAL-SKILLS.md    # 설치한 외부 스킬의 출처·사용 참고
     ├── design-docs/
-
-    │   ├── index.md
-
-    │   └── core-beliefs.md
-
+    │   ├── index.md              # 주요 설계 문서 색인
+    │   └── core-beliefs.md       # 설계 원칙 초안
     ├── exec-plans/
-
-    │   ├── active/
-
-    │   │   └── TASK-001/
-
-    │   │       ├── analysis.md
-
-    │   │       ├── spec.md
-
-    │   │       ├── plan.md
-
-    │   │       ├── ac-tests.json
-
-    │   │       └── status.json
-
-    │   ├── completed/
-
-    │   └── tech-debt-tracker.md
-
+    │   ├── active/               # 진행 중인 작업 폴더
+    │   ├── completed/            # 최종 완료된 작업 폴더
+    │   └── tech-debt-tracker.md  # 작업과 별도로 추적할 기술 부채
     ├── generated/
-
-    │   └── db-schema.md
-
+    │   └── db-schema.md          # 초기에는 자리표시자; 생성 결과가 아님
     ├── product-specs/
-
-    │   └── index.md
-
-    └── references/
-
+    │   └── index.md              # 작업별 정식 명세를 찾는 링크
+    └── references/               # 외부 기술 문서 참고 파일
 ```
+
+**참고:** 위 루트 문서 중 일부는 기본 제목만 있는 빈 양식입니다. 해당 파일이 존재한다고 프로젝트 요구사항이 완성됐다는 의미는 아닙니다.
+
+#### ② 새로운 개발 작업을 생성한 직후
+
+예를 들어 사용자가 “로그인 기능을 개발해줘”라고 요청하면 에이전트가 아래 명령으로 작업을 생성합니다.
 
 ```bash
-
-python3 scripts/workflow.py new --id TASK-001 --title '기능 개발'
-
+python3 scripts/workflow.py new --id TASK-LOGIN-001 --title '로그인 기능 개발'
 ```
 
-에이전트는 `docs/PLANS.md`, `docs/ai-workflow/POLICY.md` 및 해당 작업 문서를 기준으로 업무를 진행합니다. 구현 전 계획 승인과 완료 전 최종 승인 여부는 문서의 존재만으로 보장되지 않습니다.
+이 명령을 실행하면 `docs/exec-plans/active/TASK-LOGIN-001/`에 **정확히 다음 다섯 파일이 초기 생성**됩니다.
+
+```text
+docs/exec-plans/
+├── active/
+│   └── TASK-LOGIN-001/
+│       ├── analysis.md           # 현행 동작·문제·요구 분석
+│       ├── spec.md               # 기능 요구사항과 인수 조건(AC)
+│       ├── plan.md               # 구현 순서·영향 파일·검증 계획
+│       ├── ac-tests.json         # AC별 실행할 테스트 명령 목록 (초기 {})
+│       └── status.json           # 작업 ID·제목·생성 시각·승인/리뷰 상태
+├── completed/
+└── tech-debt-tracker.md
+```
+
+| 작업 파일 | 누가/언제 작성·갱신하는가 | 기록할 내용 |
+| --- | --- | --- |
+| `analysis.md` | **Analyze:** 에이전트가 작업 생성 후 작성 | 사용자 요청, 기존 코드 및 관련 기능 분석, 현행/기대 동작, 오류 재현 조건, 제약, 미확정 사항 |
+| `spec.md` | **Analyze / Plan:** 계획 승인 전에 작성 | 구현 범위, 제외 범위, 기능 요구사항, 확인 가능한 인수 조건 `AC-01`, `AC-02` 등 |
+| `plan.md` | **Plan:** 사용자 승인 전에 작성 | 변경할 파일·컴포넌트, 단계별 작업 순서와 의존성, 테스트 전략, 위험 및 롤백 고려사항 |
+| `ac-tests.json` | **Plan:** 각 AC에 실제 실행할 테스트 명령을 등록 | AC 식별자별 허용 테스트 명령. 처음에는 `{}`이며, 승인·검증 전에 채워야 함 |
+| `status.json` | **워크플로 명령이 생성·갱신** | 작업 식별자, 생성 시각, 승인 여부·시각, 리뷰 판정, 최종 완료 시각 등. 임의로 수정하지 않음 |
+
+> `analysis.md`, `spec.md`, `plan.md`는 새 작업 생성 시 제목만 있는 **초기 파일**입니다. 생성됐다는 사실만으로 분석이나 계획이 완료된 것이 아닙니다.
+
+#### ③ 구현·검증·리뷰를 진행한 이후
+
+테스트와 리뷰를 실제 실행하면 작업 폴더에 **추가 파일 및 디렉터리**가 생길 수 있습니다.
+
+```text
+docs/exec-plans/active/TASK-LOGIN-001/
+├── analysis.md
+├── spec.md
+├── plan.md
+├── ac-tests.json
+├── status.json
+├── evidence.jsonl                  # 실제 테스트 실행별 증거 (최초 run 후 생성)
+├── logs/                           # 실제 실행 출력 로그 (최초 run 후 생성)
+│   ├── 20261027T000000000000Z-AC-01.log  # 파일명 예시
+│   └── 20261027T000100000000Z-AC-02.log
+└── reviews/                        # 리뷰 결과 등록 시 생성
+    └── review-2026-10-27T00-10-00Z.md     # 파일명 예시
+```
+
+| 추가 기록 | 생성 시점 | 의미 |
+| --- | --- | --- |
+| `logs/*.log` | `workflow.py run`으로 명령을 실제 실행한 뒤 | 테스트 명령과 표준 출력·오류를 보관 |
+| `evidence.jsonl` | `workflow.py run`이 최초 실행될 때 | AC 번호, 실행 명령, 종료 코드, 실행 시각, 로그 경로, 소스 지문 및 테스트 중 변경 여부 등을 JSON Lines로 누적 |
+| `reviews/review-*.md` | `workflow.py review`에 리뷰 문서를 전달한 뒤 | 실제 검토 의견 파일을 작업 폴더로 복사해 보관 |
+| `status.json` | `approve`, `review`, `complete` 명령 실행 시 | 승인·리뷰·완료 상태 갱신 |
+
+`evidence.jsonl`과 `logs/`는 **작업 생성 직후에는 존재하지 않습니다.** 성공이든 실패든 테스트 명령을 실제 실행하고 나서 만들어집니다. `reviews/`도 리뷰 등록 이후 생성됩니다. 단순히 로그가 있다는 사실만으로 AC의 업무 요구 충족이 보장되지는 않습니다.
+
+#### ④ 단계별 파일 사용 흐름
+
+| 단계 | 주로 읽는 문서 | 작성·갱신하는 작업 파일 | 다음 단계로 넘어가기 위한 조건 |
+| --- | --- | --- | --- |
+| **Analyze** | `PLANS.md`, `ai-workflow/POLICY.md`, 기존 소스 | `analysis.md`, `spec.md` 초안 | 요구사항·현행 동작·재현 조건을 파악 |
+| **Plan** | 분석 결과 및 관련 `design-docs/` | `spec.md`, `plan.md`, `ac-tests.json` | 인수 조건에 맞는 실행 명령을 정의하고 **사용자 계획 승인** 요청 |
+| **Implement** | 승인된 명세·계획 | 애플리케이션 소스·테스트 코드, 필요 시 `plan.md` | 승인 후 `workflow.py gate --stage implement` 통과 |
+| **Verify** | `spec.md`, `ac-tests.json` | `logs/`, `evidence.jsonl` | 등록된 명령의 실제 실행 결과와 AC별 적합성 확인 |
+| **Review** | 변경 코드, 명세, 테스트 증거 | `reviews/`, `status.json` | 실질적 코드 리뷰를 수행하고 `workflow.py review`로 결과 등록 |
+| **Complete** | 전체 작업 문서·증거·리뷰 | `status.json`, 이후 `completed/TASK-ID/` 이동 | 완료 게이트 통과 및 **사용자 최종 승인** |
+
+작업 진행에 사용하는 대표 명령:
+
+```bash
+# 생성 이후 명세·계획·AC별 테스트 명령을 채우고 사용자 계획 승인 요청
+
+# 사용자가 실제로 계획을 승인한 이후
+python3 scripts/workflow.py approve --id TASK-LOGIN-001 --user-confirmed
+python3 scripts/workflow.py gate --id TASK-LOGIN-001 --stage implement
+
+# ac-tests.json에 해당 명령이 등록된 뒤 실제 실행
+python3 scripts/workflow.py run --id TASK-LOGIN-001 --ac AC-01 -- npm test
+
+# 증거를 검토한 후 리뷰 단계 확인
+python3 scripts/workflow.py gate --id TASK-LOGIN-001 --stage review
+
+# 검토 의견 파일을 작성하고 리뷰 등록
+python3 scripts/workflow.py review --id TASK-LOGIN-001 --verdict PASS --notes-file review-notes.md
+
+# 완료 게이트 확인 후 사용자 최종 승인을 받아 완료 처리
+python3 scripts/workflow.py gate --id TASK-LOGIN-001 --stage complete
+python3 scripts/workflow.py complete --id TASK-LOGIN-001 --user-confirmed
+```
+
+위의 `npm test`는 예시입니다. 실제로 프로젝트에 존재하고 해당 AC를 검증하는 명령으로 바꾸어 `ac-tests.json`에 등록해야 합니다. `--user-confirmed`는 실제 사용자 승인이 **이미 있었을 때만** 사용합니다.
+
+#### ⑤ 완료 처리 후
+
+완료 처리되면 동일한 작업 디렉터리가 이동합니다. 분석·명세·계획·테스트 증거·리뷰 기록은 해당 작업 폴더에 함께 유지됩니다.
+
+```text
+docs/exec-plans/
+├── active/                          # 계속 진행 중인 다른 작업
+└── completed/
+    └── TASK-LOGIN-001/
+        ├── analysis.md
+        ├── spec.md
+        ├── plan.md
+        ├── ac-tests.json
+        ├── status.json
+        ├── evidence.jsonl
+        ├── logs/
+        └── reviews/
+```
+
+#### ⑥ 외부 스킬 사용 기록과 작업 문서의 관계
+
+`using-superpowers`는 작업 성격에 맞는 원본 스킬을 확인하도록 돕는 스킬입니다. **현재 `workflow.py new`는 `skill-usage.json`을 만들지 않으며, `using-superpowers` 자체에도 작업 파일 자동 기록 기능은 없습니다.**
+
+필요하면 향후 `skill-usage.json`(선택 스킬·선택 이유·실제 호출 근거)을 별도 기능으로 추가할 수 있으나, 현재는 에이전트의 자기 보고와 실제 스킬 호출 증거를 구분해야 합니다.
 
 ### 중복 관리 방지
 

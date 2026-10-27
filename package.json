@@ -1,6 +1,6 @@
 {
   "name": "@gon1942/ai-dev-external-framework",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "private": false,
   "description": "Cross-agent external skills installer, session status hooks and task tracking for OpenCode, Codex and Claude Code",
   "bin": {
@@ -28,7 +28,8 @@
     "admin-skills/",
     "manage-skills.sh",
     "AGENTS.md",
-    "agent-commands/"
+    "agent-commands/",
+    "examples/"
   ],
   "keywords": [
     "agent-skills",

@@ -1,3 +1,3 @@
-# Product sense
+# 제품 방향과 사용자 가치
 
-Define audience, user value, and non-goals.
+대상 사용자, 제공할 가치, 의도적으로 제외할 범위를 정의한다.

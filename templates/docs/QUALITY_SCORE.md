@@ -1,3 +1,3 @@
-# Quality criteria
+# 품질 기준
 
-Document lint, typecheck, unit, integration, and E2E expectations.
+린트(lint), 타입 검사(typecheck), 단위·통합·E2E 테스트의 기대 수준을 문서화한다.

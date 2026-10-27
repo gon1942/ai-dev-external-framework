@@ -1,3 +1,3 @@
-# Reliability
+# 신뢰성 운영 기준
 
-Document SLAs, alerting, failure handling, backups and recovery.
+서비스 수준 목표(SLA), 알림, 장애 대응, 백업과 복구 절차를 기록한다.
