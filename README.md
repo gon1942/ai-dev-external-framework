@@ -104,13 +104,13 @@ cd my-project
 
 ```
 
-`init`은 디렉터리가 없다면 생성하고 프로젝트 문서·상태 조회 파일·에이전트 설정·원본 외부 스킬·CRG·Playwright CLI·중앙 스킬 정책을 순서대로 설치합니다. 기본값은 `--agents all`이며, CRG 제외는 `--skip-crg`, Playwright 제외는 `--skip-playwright`입니다.
+`init`은 디렉터리가 없다면 생성하고 프로젝트 문서·상태 조회 파일·에이전트 설정·원본 외부 스킬·CRG·Playwright CLI·RTK CLI·중앙 스킬 정책을 순서대로 설치합니다. 기본값은 `--agents all`이며, CRG 제외는 `--skip-crg`, Playwright 제외는 `--skip-playwright`, RTK 제외는 `--skip-rtk`입니다.
 
 설치가 정상인지 먼저 확인합니다.
 
 ```bash
 
-# 읽기 전용 검사: 설치된 스킬 이름, 누락 목록, CRG·Playwright 상태
+# 읽기 전용 검사: 설치된 스킬 이름, 누락 목록, CRG·Playwright·RTK 상태
 
 node .ai-dev/dependency-check.cjs
 
@@ -158,7 +158,7 @@ npx --yes @gon1942/ai-dev-external-framework\@latest init .
 
 ```
 
-기존 `AGENTS.md`가 있으면 보존합니다. 프레임워크 작업 지침이 자동 병합되지는 않으므로 설치 메시지와 파일 내용을 확인하세요. 관리 대상으로 취급되는 일부 파일이 이미 존재하며 내용이 다른 경우, 무단 덮어쓰기 대신 충돌 오류가 발생할 수 있습니다.
+기존 `AGENTS.md`가 있으면 보존합니다. 특정 구성 요소만 추가할 때는 `install-rtk`·`install-playwright`·`install-crg`를 사용할 수 있습니다. 프레임워크 작업 지침이 자동 병합되지는 않으므로 설치 메시지와 파일 내용을 확인하세요. 관리 대상으로 취급되는 일부 파일이 이미 존재하며 내용이 다른 경우, 무단 덮어쓰기 대신 충돌 오류가 발생할 수 있습니다.
 
 ### 설치 미리보기
 
@@ -200,7 +200,7 @@ my-project/
 
 ├── .ai-dev/
 
-│   ├── dependency-check.cjs       # 원본 스킬 19개·CRG·Playwright 설치 검사 (읽기 전용)
+│   ├── dependency-check.cjs       # 원본 스킬 19개·CRG·Playwright·RTK 설치 검사 (읽기 전용)
 
 │   ├── session-status.cjs         # 프로젝트 로컬 세션 상태 조회
 
@@ -218,7 +218,8 @@ my-project/
 
 │   ├── crg-venv/                  # CRG Python 가상환경 (init 시 설치)
 
-│   └── playwright/                # Playwright CLI 프로젝트 로컬 설치
+│   ├── playwright/                # Playwright CLI 프로젝트 로컬 설치
+│   └── rtk-install.json           # RTK CLI 설치 기록 (바이너리·에이전트 훅은 사용자 전역)
 
 ├── .agents/skills/                # Codex용 원본 스킬
 
@@ -647,7 +648,7 @@ npx --yes @gon1942/ai-dev-external-framework@latest install-rtk --project . --ag
 
 | **종료·개선 (Complete)** | `retro` | 완료 Gate: `scripts/workflow.py` | 회고, 최종 승인 기록, `completed/` 이동 |
 
-**구분:** CRG는 CLI·프로젝트 그래프·MCP 연결을 이용하는 코드 분석 도구이고, Playwright CLI는 브라우저 실행 도구입니다. 둘 다 일반 스킬 19개와 같은 단일 `SKILL.md` 구성이 아닙니다. `ponytail`은 보조 스킬 파일이며, 별도 플러그인/Hook 기능까지 자동 활성화되는 것은 아닙니다.
+**구분:** CRG는 CLI·프로젝트 그래프·MCP 연결을 이용하는 코드 분석 도구이고, Playwright CLI는 브라우저 실행 도구입니다. 둘 다 일반 스킬 19개와 같은 단일 `SKILL.md` 구성이 아닙니다. RTK CLI는 단계 배정 없이 에이전트의 셸 명령 출력을 상시 압축하는 도구입니다. `ponytail`은 보조 스킬 파일이며, 별도 플러그인/Hook 기능까지 자동 활성화되는 것은 아닙니다.
 
 ### 5.2 작업 유형별 사용 예시
 
@@ -790,7 +791,7 @@ v0.8.1에서는 `AGENTS.md`가 `ai-dev status` 명령을 호출했지만, `npx`�
 
 ```bash
 
-# 읽기 전용 검사: 설치된 스킬 이름, 누락 목록, CRG·Playwright 상태
+# 읽기 전용 검사: 설치된 스킬 이름, 누락 목록, CRG·Playwright·RTK 상태
 
 node .ai-dev/dependency-check.cjs
 
@@ -806,9 +807,9 @@ python3 scripts/workflow.py session --json
 
 ```
 
-v0.9.0부터 세션 시작 시 **세 에이전트별 설치·미설치 원본 스킬 이름, CRG·Playwright 설치 상태, 활성 작업**을 안내문에 표시하도록 안내합니다.
+v0.9.0부터 세션 시작 시 **세 에이전트별 설치·미설치 원본 스킬 이름, CRG·Playwright·RTK 설치 상태, 활성 작업**을 안내문에 표시하도록 안내합니다.
 
-**보고 예:** `OpenCode 19/19`, `Codex 19/19`, `Claude 19/19`, `CRG: 설치 확인(MCP 미검증)`, `Playwright: 설치`, `누락: 없음`, `활성 작업: 0건`. 이는 예시로, 실제 현황은 검사를 실행하여 확인해야 합니다. 에이전트가 지침을 생략하면 사용자 메시지에 모두 표시되지 않을 수 있으므로 위 로컬 명령으로 확인하세요.
+**보고 예:** `OpenCode 19/19`, `Codex 19/19`, `Claude 19/19`, `CRG: 설치 확인(MCP 미검증)`, `Playwright: 설치`, `RTK: 설치 확인`, `누락: 없음`, `활성 작업: 0건`. 이는 예시로, 실제 현황은 검사를 실행하여 확인해야 합니다. 에이전트가 지침을 생략하면 사용자 메시지에 모두 표시되지 않을 수 있으므로 위 로컬 명령으로 확인하세요.
 
 - 설치 누락이 발견돼도 세션 조회 자체는 **읽기 전용**이며 파일을 변경하지 않습니다. 새 세션이 열렸다는 이유만으로 작업을 생성하거나, 승인 처리하거나, 테스트 완료로 표시하지 않습니다.
 
