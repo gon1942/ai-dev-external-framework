@@ -10,7 +10,7 @@
 
 3. [설치되는 구성 요소](#3-설치되는-구성-요소)
 
-4. [외부 원본 스킬 19개 + CRG + Playwright CLI (총 21개)](#4-외부-원본-스킬-19개--crg--playwright-cli-총-21개)
+4. [외부 원본 스킬 19개 + CRG + Playwright CLI + RTK (총 22개)](#4-외부-원본-스킬-19개--crg--playwright-cli--rtk-총-22개)
 
 5. [개발 단계별 외부 스킬 활용 가이드](#5-개발-단계별-외부-스킬-활용-가이드)
 
@@ -40,7 +40,7 @@ AI 코딩 에이전트로 작업하면 도구마다 계획서 형식이 다르�
 
 이 프레임워크는 다음 목표를 갖습니다.
 
-기본 구성은 **외부 원본 스킬 19개(Matt Pocock 8개 + Superpowers 10개 + Ponytail 1개), CRG 1개, Playwright CLI 1개로 총 21개 구성 요소**입니다.
+기본 구성은 **외부 원본 스킬 19개(Matt Pocock 8개 + Superpowers 10개 + Ponytail 1개), CRG 1개, Playwright CLI 1개, RTK CLI 1개로 총 22개 구성 요소**입니다.
 
 - **공통 작업 흐름:** 요구사항 분석 → 계획 → 사용자 승인 → 구현 → 검증 → 리뷰 → 최종 승인
 
@@ -471,7 +471,7 @@ docs/exec-plans/
 
 문서 파일 생성만으로 실제 외부 스킬 실행이나 검증 완료를 선언하지 마세요.
 
-## 4. 외부 원본 스킬 19개 + CRG + Playwright CLI (총 21개)
+## 4. 외부 원본 스킬 19개 + CRG + Playwright CLI + RTK (총 22개)
 
 아래는 현재 설치 프로그램의 **지정 목록**입니다. 실제 GitHub 원본에 같은 경로의 `SKILL.md`가 있어야 설치가 성공합니다. 원본 프로젝트의 향후 변경으로 설치가 실패할 수 있습니다.
 
@@ -594,6 +594,25 @@ npx --yes @gon1942/ai-dev-external-framework\@latest install-playwright --projec
 
 .ai-dev/playwright/node_modules/.bin/playwright-cli --help
 
+```
+
+### RTK — 22번째 구성 요소
+
+[rtk-ai/rtk](https://github.com/rtk-ai/rtk) 공식 **RTK CLI**를 기본 설치 구성에 포함합니다. 에이전트가 읽는 셸 명령 출력(git·pytest·npm·ls 등 100+ 명령)을 자동으로 압축해 토큰 사용을 60-90% 줄입니다. **실패 라인은 보존**되므로 AC 검증 증거가 손실되지 않습니다.
+
+- `init`은 공식 install 스크립트를 **다운로드 후 실행**해(원격 파이프 없음) 사용자 머신의 `~/.local/bin`에 Rust 바이너리를 설치하고, `rtk init -g` / `--opencode` / `--codex`로 에이전트별 훅을 등록합니다. 바이너리가 이미 있으면 재다운로드하지 않습니다.
+
+- OpenCode 플러그인은 **1.18.29+**가 필요하며, 미만이면 경고만 출력합니다. Windows는 `winget install rtk-ai.rtk` 수동 설치 후 재실행하세요.
+
+- Claude Code의 `settings.json` 훅 패치는 비대화 모드에서 자동 적용되지 않으므로 `rtk init`이 출력하는 스니펫을 1회 수동 적용합니다.
+
+- 텔레메트리는 **기본 OFF**입니다. 개별 명령의 원본 출력이 필요하면 `rtk bypass <cmd>`를 사용하고, 절감 통계는 `rtk gain`으로 확인합니다.
+
+- 라이선스: CLI는 Apache-2.0(내부 엔진 BUSL-1.1, 프로덕션 사용 무료). 본 프레임워크는 공식 배포판을 다운로드만 하며 재배포하지 않습니다. `rtk-proxy` 데몬은 구성에서 제외했습니다.
+
+```bash
+# 기존 프로젝트에 RTK만 설치
+npx --yes @gon1942/ai-dev-external-framework@latest install-rtk --project . --agents all
 ```
 
 ## 5. 개발 단계별 외부 스킬 활용 가이드
@@ -961,7 +980,7 @@ done
 node .ai-dev/skill-manager.cjs dashboard
 ```
 
-정상 설치 시 원본 스킬 검사 결과는 **OpenCode·Codex·Claude 각각 19/19**, 별도 도구까지 포함한 전체 구성은 **19개 원본 + CRG + Playwright CLI = 21개**입니다. 브라우저 스킬 파일까지 포함하면 에이전트별 `SKILL.md`는 통상 **20개**입니다. 스킬 파일 존재와 에이전트에서 실제 호출 가능한지는 구분해야 합니다.
+정상 설치 시 원본 스킬 검사 결과는 **OpenCode·Codex·Claude 각각 19/19**, 별도 도구까지 포함한 전체 구성은 **19개 원본 + CRG + Playwright CLI + RTK CLI = 22개**입니다. 브라우저 스킬 파일까지 포함하면 에이전트별 `SKILL.md`는 통상 **20개**입니다. 스킬 파일 존재와 에이전트에서 실제 호출 가능한지는 구분해야 합니다.
 
 ### 원본 스킬 갱신
 

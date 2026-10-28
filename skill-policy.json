@@ -103,6 +103,11 @@
       "package": "@playwright/cli",
       "enabled": true
     },
+    "rtk": {
+      "kind": "rtk",
+      "source": "rtk-ai/rtk",
+      "enabled": true
+    },
     "using-superpowers": {
       "kind": "upstream",
       "source": "superpowers",

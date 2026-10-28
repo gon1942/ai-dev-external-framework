@@ -34,5 +34,10 @@ const pwCli=path.join(root,'.ai-dev','playwright','node_modules','.bin','playwri
 const pwAgents={};for(const [name,dir] of Object.entries(agents)){pwAgents[name]=fs.existsSync(path.join(root,dir,'playwright-cli','SKILL.md'))}
 const pwInstalled=fs.existsSync(pwCli)&&Object.values(pwAgents).every(Boolean);
 console.log('[Playwright CLI] '+(pwInstalled?'설치 확인 (브라우저 실행은 별도 검증)':'미설치 또는 불완전')+'; agent skill files: '+JSON.stringify(pwAgents));
-console.log('[전체] 기본 구성 요소: 외부 원본 19종 + CRG 1종 + Playwright CLI 1종 = 21종');
-if(!pwInstalled)process.exitCode=1;
+
+// RTK CLI — 22nd component. Global binary + project install record. Read-only check.
+let rtkBin=false;try{const r=require('node:child_process').spawnSync(process.env.RTK_BIN||path.join(require('node:os').homedir(),'.local','bin','rtk'),['--version'],{encoding:'utf8',timeout:10000});rtkBin=!r.error&&r.status===0}catch{}
+let rtkRec=false;try{rtkRec=JSON.parse(fs.readFileSync(path.join(root,'.ai-dev','rtk-install.json'),'utf8')).agents.length>0}catch{}
+console.log('[RTK CLI] '+(rtkBin&&rtkRec?'설치 확인 (명령 출력 압축 · 텔레메트리 기본 OFF)':'미설치 (바이너리 '+(rtkBin?'있음':'없음')+' · 설치기록 '+(rtkRec?'있음':'없음')+')'));
+console.log('[전체] 기본 구성 요소: 외부 원본 19종 + CRG 1종 + Playwright CLI 1종 + RTK CLI 1종 = 22종');
+if(!pwInstalled||!rtkBin||!rtkRec)process.exitCode=1;

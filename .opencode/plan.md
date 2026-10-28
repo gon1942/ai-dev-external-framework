@@ -1,35 +1,35 @@
-# Plan: README 오류 수정 및 구조 정리
-- 상태: done (active/done/blocked 중 하나)
-- 생성: 2026-10-27, 브랜치: main, 세션: gon-MS-7C94-0842
-- 요청: 버전 이력 표 삭제 + 분석 결과 항목 1,3,4,5 수정
+# Plan: 공통 프레임워크에 RTK 22번째 구성 요소 추가
+- 상태: active
+- 생성: 2026-10-29, 브랜치: (framework repo 기본 브랜치), 세션: gon-20261028-0945
+- 요청: ai-dev-external-framework(npm @gon1942)에 RTK 설치 통합 (BUILD 승인됨)
 
 ## Plan
-- **Task Summary**: README.md의 깨진 플레이스홀더, npx 잔여 `@`, docs 섹션 번호 체계, 가짜 파일 인용, 버전 이력 표를 수정/삭제한다.
-- **Objective**: README와 실제 코드(package.json 1.0.0, skill-policy.json, lib/init.js) 간 불일치 제거.
+- **Task Summary**: RTK(CLI 출력 압축, 토큰 60-90% 절감)를 22번째 구성 요소로 추가 — playwright.js 패턴 준용
+- **Objective**: npx ai-dev 설치 시 사용자 머신에 RTK 바이너리(공식 소스) + 에이전트별 훅 등록까지 자동화
 - **Scope**:
-  1. L776·L779 깨진 플레이스홀더(`이미 \`\`를`, `# 같은  버전`) 문장 복구
-  3. `ai-dev-external-framework@ ` 잔여 `@` 제거 (31곳, `npm view` 라인 포함)
-  4. `## docs/ 디렉터리 안내`~`## 중복 관리 방지` 5개 H2를 3장 산하 `###`로 강등
-  5. 구조 예시(L200)의 `docs/README.md` 줄 제거 (lib/init.js 생성 없음 확인)
-  6. `## 15. 버전 이력` 섹션 전체 삭제 + 목차 15번 항목 삭제 + dangling `참고:` 삭제
-- **Non-Goals**: 항목 2(버전 이력 갱신)는 삭제 대체. 목차 15번 제외 목차 변경 없음. 코드/템플릿 변경 없음.
-- **Constraints**: README.md만 수정. 나머지 텍스트·포맷 변경 금지. 커밋/푸시 자동 금지.
-- **Assumptions**: `pkg@ subcommand` 형태의 잔여 `@`는 61e0b56 의도(버전 명시 제거)에 따른 제거 대상.
-- **Affected Areas**: README.md 1개 파일.
-- **Implementation Strategy**: sed/Edit로 패턴 치환 후 diff 확인.
-- **Risks**:极低 — 문서 파일 단독 수정. 링크 앵커는 15번 삭제 시 목차 동기화 유지.
-- **Verification Strategy**: grep으로 잔여 `framework@ `, 빈 백틱, 버전 이력, docs/README.md 참조 0건 확인; 목차 앵커와 H2 헤더 일치 확인; `git diff` 범위 확인.
-- **Definition of Done**: 위 6개 항목 모두 반영, README 외 변경 없음.
+  1. `lib/rtk.js` 신규 — inspect/install (플랫폼 감지: linux/mac curl install.sh, win은 안내; RTK_EDITION env 전달; rtk init -g / --opencode / --codex; claude settings.json 패치는 비대화 모건 한계 안내)
+  2. `skill-policy.json` — rtk 항목 등록
+  3. `lib/init.js` — --skip-rtk 패턴 호출
+  4. `lib/deps.js` + `templates/.ai-dev/dependency-check.cjs` — RTK 상태 검사 (바이너리·버전·opencode 1.18.29+ 경고)
+  5. 문서 — README §4(21→22), admin-skills/framework-skill-admin.md, templates/docs/ai-workflow/EXTERNAL-SKILLS.md
+  6. `test/` — rtk 모듈 테스트 (inspect/dry-run 중심)
+  7. `package.json` — 1.0.5 → 1.1.0
+- **Non-Goals**: rtk-proxy(BUSL 데몬) 제외, 바이너리 번들/재배포 없음(공식 다운로드만), macOS/Windows 실기 테스트(문서로 보완)
+- **Constraints**: 기존 playwright.js 인터페이스(inspect/install/targets, dry 지원) 준수, MIT 프레임워크 정체성 유지
+- **Facts (확인됨)**:
+  - RTK 1.1.0 이 머신 설치·검증 완료 (rtk ls 압축 동작, opencode 플러그인 ~/.config/opencode/plugins/rtk.ts 등록)
+  - install.sh: 공식 release tar.gz + SHA-256 체크섬 + 경로탈취 검사 후 ~/.local/bin 설치 (sudo 불필요)
+  - rtk init -g --opencode: opencode 플러그인 + claude 훅 등록 (claude settings.json 패치는 비대화시 수동 단계)
+  - opencode 훅 요구버전 1.18.29+, 현재 1.18.35
+- **Affected Areas**: 프레임워크 설치 흐름 전체 (신규/기존 프로젝트)
+- **Risks**: 플랫폼별 설치 차이(Linux만 실검), 네트워크 차단 환경(오류 안내 처리), claude settings 자동 패치의 비대화 한계
+- **Verification Strategy**: lib/rtk.js dry-run/실동작 테스트, npm test 전체 통과, npx ai-dev 통합 경로 확인
+- **Definition of Done**: 7건 반영 + npm test 통과 + 승인 없이 커밋하지 않음
 
 ## Task Breakdown
-- [x] 현재 동작과 영향 파일 확인 (분석 단계에서 완료)
-- [x] 범위 내 README 수정
-- [x] grep/diff 검증
-- [x] CHANGE-REVIEW / DIFF-REVIEW
-
-## 완료 기록
-- 완료일시: 2026-10-27 08:42
-- 수정 파일: README.md — (1) 빈 백틱/이중공백 플레이스홀더 복구 (3) `framework@ ` 잔여 `@` 31곳 제거 (4) docs 섹션 H2→H3 강등 (5) 구조 예시 `docs/README.md` 제거 (6) `## 15. 버전 이력` 표·목차·dangling `참고:` 삭제
-- 검증 결과: `framework@ `/버전 이력/docs/README 참조 grep 0건, H2 번호 1~14 연속·목차 일치, 코드펜스 짝수(82)
-- DIFF-REVIEW 판정: WARN — diff에 작업 전부터 존재하던 미커밋 변경(docs/ 디렉터리 안내 섹션 삽입, HEAD에 없음)이 섞여 있음. 범위 내 변경 자체는 일치.
-- 커밋: 미커밋
+- [x] 1단계: RTK 실설치 검증 (이 머신)
+- [ ] lib/rtk.js 구현
+- [ ] skill-policy.json / init.js / deps.js / dependency-check.cjs 반영
+- [ ] 문서 3종 갱신
+- [ ] 테스트 추가 및 npm test 통과
+- [ ] 버전 1.1.0
