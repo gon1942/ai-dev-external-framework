@@ -1,6 +1,17 @@
 # AI Dev External Framework — 외부 스킬 기반 공통 개발 프레임워크
 
+[![npm version](https://img.shields.io/npm/v/@gon1942/ai-dev-external-framework)](https://www.npmjs.com/package/@gon1942/ai-dev-external-framework)
+[![License: MIT](https://img.shields.io/badge/License-MIT-informational)](./LICENSE)
+[![Node](https://img.shields.io/badge/node-%E2%89%A520-success)](./package.json)
+
 **OpenCode · Codex · Claude Code에서 동일한 개발 절차를 적용하기 위한 외부 스킬 기반 공통 프레임워크**
+
+```bash
+# 새 프로젝트
+npx --yes @gon1942/ai-dev-external-framework@latest init my-project
+# 기존 프로젝트 최신화 
+npx --yes @gon1942/ai-dev-external-framework@latest upgrade --project .
+```
 
 ## 목차
 
@@ -10,7 +21,7 @@
 
 3. [설치되는 구성 요소](#3-설치되는-구성-요소)
 
-4. [외부 원본 스킬 19개 + CRG + Playwright CLI + RTK (총 22개)](#4-외부-원본-스킬-19개--crg--playwright-cli--rtk-총-22개)
+4. [외부 원본 스킬 20개 + CRG + Playwright CLI + RTK (총 23개)](#4-외부-원본-스킬-20개--crg--playwright-cli--rtk-총-23개)
 
 5. [개발 단계별 외부 스킬 활용 가이드](#5-개발-단계별-외부-스킬-활용-가이드)
 
@@ -40,7 +51,7 @@ AI 코딩 에이전트로 작업하면 도구마다 계획서 형식이 다르�
 
 이 프레임워크는 다음 목표를 갖습니다.
 
-기본 구성은 **외부 원본 스킬 19개(Matt Pocock 8개 + Superpowers 10개 + Ponytail 1개), CRG 1개, Playwright CLI 1개, RTK CLI 1개로 총 22개 구성 요소**입니다.
+기본 구성은 **외부 원본 스킬 20개(Matt Pocock 8개 + Superpowers 10개 + Ponytail 1개 + Self-Improving Agent 1개), CRG 1개, Playwright CLI 1개, RTK CLI 1개로 총 23개 구성 요소**입니다.
 
 - **공통 작업 흐름:** 요구사항 분석 → 계획 → 사용자 승인 → 구현 → 검증 → 리뷰 → 최종 승인
 
@@ -120,7 +131,7 @@ node .ai-dev/session-status.cjs
 
 python3 scripts/workflow.py session
 
-# 설치된 스킬 개수 확인 (19개 원본 + playwright-cli = 디렉터리별 20개)
+# 설치된 스킬 개수 확인 (20개 원본 + playwright-cli = 디렉터리별 21개)
 
 for dir in .agents .opencode .claude; do
 
@@ -132,7 +143,7 @@ done
 
 ```
 
-각 에이전트를 모두 선택하고 설치에 성공했다면 디렉터리별로 **20개**의 `SKILL.md`가 검색됩니다. 원본 저장소 구성·네트워크 상태에 따라 실제 결과는 다를 수 있으므로 반드시 확인하세요.
+각 에이전트를 모두 선택하고 설치에 성공했다면 디렉터리별로 **21개**의 `SKILL.md`가 검색됩니다. 원본 저장소 구성·네트워크 상태에 따라 실제 결과는 다를 수 있으므로 반드시 확인하세요.
 
 그다음 프로젝트 폴더에서 평소 사용하는 에이전트를 실행합니다.
 
@@ -154,9 +165,11 @@ opencode
 
 cd /path/to/existing-project
 
-npx --yes @gon1942/ai-dev-external-framework\@latest init .
+npx --yes @gon1942/ai-dev-external-framework\@latest upgrade
 
 ```
+
+`upgrade`는 스킬·도구를 갱신하고 관리 파일(`AGENTS.md`·`docs/PLANS.md`·`.ai-dev/dependency-check.cjs`)을 **3-way 병합**으로 최신화한다. 순정 파일은 자동 교체, 사용자 수정은 보존되며(양쪽 모두 추가한 섹션은 둘 다 유지), 같은 줄을 서로 수정한 경우만 충돌 마커로 알린다. 항상 `.bak-upgrade` 백업을 남기고 `--dry-run`으로 예행연습할 수 있다. 기존 버전 설치 프로젝트의 단순 재적용은 `init .`도 여전히 지원한다(스킬만 갱신, 관리 파일 보존).
 
 기존 `AGENTS.md`가 있으면 보존합니다. 특정 구성 요소만 추가할 때는 `install-rtk`·`install-playwright`·`install-crg`를 사용할 수 있습니다. 프레임워크 작업 지침이 자동 병합되지는 않으므로 설치 메시지와 파일 내용을 확인하세요. 관리 대상으로 취급되는 일부 파일이 이미 존재하며 내용이 다른 경우, 무단 덮어쓰기 대신 충돌 오류가 발생할 수 있습니다.
 
@@ -472,7 +485,7 @@ docs/exec-plans/
 
 문서 파일 생성만으로 실제 외부 스킬 실행이나 검증 완료를 선언하지 마세요.
 
-## 4. 외부 원본 스킬 19개 + CRG + Playwright CLI + RTK (총 22개)
+## 4. 외부 원본 스킬 20개 + CRG + Playwright CLI + RTK (총 23개)
 
 아래는 현재 설치 프로그램의 **지정 목록**입니다. 실제 GitHub 원본에 같은 경로의 `SKILL.md`가 있어야 설치가 성공합니다. 원본 프로젝트의 향후 변경으로 설치가 실패할 수 있습니다.
 
@@ -539,7 +552,7 @@ docs/exec-plans/
 
 **주의:** Ponytail은 이 패키지에서 **스킬 파일만 설치**합니다. 원본 Ponytail의 별도 플러그인, 실행 Hook, 모드 전환 등은 자동으로 활성화되지 않습니다. Superpowers나 다른 원본 저장소의 런타임 플러그인도 이 설치 도구가 자동으로 완성해 주는 것은 아닙니다.
 
-### Code Review Graph(CRG) — 20번째 구성 요소
+### Code Review Graph (CRG)
 
 | 구성 요소 | 역할 | 구분 |
 
@@ -571,7 +584,7 @@ cat .ai-dev/crg-install.json
 
 ```
 
-### Playwright CLI — 21번째 구성 요소
+### Playwright CLI
 
 Microsoft 공식 **Playwright CLI + `playwright-cli` 스킬**을 기본 설치 구성에 포함합니다. 웹 UI 변경 시 **VERIFY 단계의 조건부 도구**(conditional)로, 실제 브라우저 열기·탐색·사용자 시나리오 확인에 사용합니다.
 
@@ -597,7 +610,7 @@ npx --yes @gon1942/ai-dev-external-framework\@latest install-playwright --projec
 
 ```
 
-### RTK — 22번째 구성 요소
+### RTK CLI
 
 [rtk-ai/rtk](https://github.com/rtk-ai/rtk) 공식 **RTK CLI**를 기본 설치 구성에 포함합니다. 에이전트가 읽는 셸 명령 출력(git·pytest·npm·ls 등 100+ 명령)을 자동으로 압축해 토큰 사용을 60-90% 줄입니다. **실패 라인은 보존**되므로 AC 검증 증거가 손실되지 않습니다.
 
@@ -616,6 +629,18 @@ npx --yes @gon1942/ai-dev-external-framework\@latest install-playwright --projec
 npx --yes @gon1942/ai-dev-external-framework@latest install-rtk --project . --agents all
 ```
 
+### Self-Improving Agent
+
+[Grail-Computer/Self-Improving-Agent](https://github.com/Grail-Computer/Self-Improving-Agent)의 **`self-improving-agent` 스킬을 원본 그대로**(git SHA 고정) 설치하고, 프레임워크는 **자기교정 프로토콜**로 감싼다.
+
+- **스킬(원본 무수정)**: 작업 후 회고 방법, 규칙 갱신, 반복 워크플로우의 스킬화 절차를 담은 메타 스킬.
+
+- **프레임워크 프로토콜(templates/AGENTS.md §6)**: 완료 단계에서 회고 → 학습 **제안** → **사용자 승인**(일괄 위임 시 심사 에이전트) → `AGENTS.md`의 `## 학습된 규칙` 섹션에만 기록. 승인 없이 규칙 파일을 수정하지 않으며, 프레임워크 관리 섹션은 침범하지 않는다.
+
+- **크기 규율**: 추가 시 중복 병합, 근거 소멸 규칙 삭제 제안, 비대화 시 정리 우선 — AGENTS.md 무한 증식을 막는다.
+
+- 설치는 `init` 시 `skill-policy.json`의 git 스킬로 자동 수행되며(업스트림 SHA 고정), 완료 단계 배정(complete/recommended)으로 회고 시점에 사용을 권장한다.
+
 ## 5. 개발 단계별 외부 스킬 활용 가이드
 
 이 표는 **프레임워크에 설치되는 19개 원본 스킬과 CRG·Playwright의 권장 활용 위치**를 정리한 운영 가이드입니다. **현재 코드가 모든 단계에서 해당 스킬을 자동 선택·강제 호출한다는 뜻은 아닙니다.** 에이전트는 사용자 요청, 설치 여부, 원본 스킬의 사용 조건에 따라 필요한 스킬을 선택합니다. 스킬 간 역할이 겹치면 모두 실행할 필요는 없습니다. 단계별 배정은 [중앙 스킬 정책](#10-중앙-스킬-관리-스킬-정책)으로 관리됩니다.
@@ -630,25 +655,67 @@ npx --yes @gon1942/ai-dev-external-framework@latest install-rtk --project . --ag
 
 **적용 범위:** OpenCode `.opencode/skills/using-superpowers/SKILL.md`, Codex `.agents/skills/using-superpowers/SKILL.md`, Claude Code `.claude/skills/using-superpowers/SKILL.md`. 에이전트별 파일 존재, 스킬 인식, 실제 호출은 각각 별도 확인이 필요합니다.
 
-### 5.1 단계별 권장 조합
+### 5.1 단계별 스킬 배정 — 왜 이 단계인가, 어떻게 쓰이는가
 
-| 단계 | 우선 고려할 외부 스킬 | 필요할 때 추가할 스킬/도구 | 기대 결과 |
+배정은 중앙 정책(`skill-policy.json`) 기준이며 권장(recommended)과 조건부(conditional)로 구분한다. 아래 표는 각 스킬이 **왜 그 단계에 배정됐는지**와 **실제로 어떻게 사용되는지**를 정리한다.
 
-|---|---|---|---|
+#### 분석 (Analyze) — 무엇이 문제이고 무엇을 만들어야 하는가
 
-| **분석 (Analyze)** | `using-superpowers`로 후보 검토 후 `grill-with-docs`, `brainstorming`, `to-spec` | 버그: `diagnosing-bugs`, `systematic-debugging`; 코드 구조: **CRG** | 요구사항, 재현 조건, 범위, AC 초안 |
+| 스킬 | 왜 이 단계에 | 어떻게 사용되는가 |
+|---|---|---|
+| `using-superpowers` | 모든 단계의 입구 — 스킬 선택 절차 자체가 없으면 무작정 시작하기 쉽다 | 단계 시작 시 후보 스킬을 먼저 조사·선택하게 하여 상황에 맞는 도구만 쓰게 한다 |
+| `grill-with-docs` | 요구가 모호한 채로 진행하면 계획·구현 전체가 표류한다 | 집요한 질문으로 계획을 다듬으며 ADR·용어집을 문서로 남긴다 |
+| `brainstorming` | 신규 창작은 코드보다 옵션 탐색이 먼저다 | 기능·컴포넌트 신규 작업 전 접근 후보를 확장하고 수렴한다 |
+| `diagnosing-bugs` | 재현조차 안 되는 버그는 원인 파악이 곧 분석의 핵심이다 | "간헐적으로 죽어" 같은 요청을 재현 조건·원인 후보로 구조화한다 |
+| `systematic-debugging` | 원인 가설 없는 수정 제안은 무책임하다 | 수정을 제안하기 전 가설→검증 루프로 근거를 확보한다 |
+| **CRG** | 코드 구조·의존 관계는 텍스트 검색보다 그래프 조회가 정확하다 | 영향 반경·허브 노드 조회로 분석 범위를 확정한다 |
 
-| **계획 (Plan)** | `writing-plans`, `to-tickets` | `using-git-worktrees`, `subagent-driven-development` | 작업 분해, 순서·의존성, 파일 변경 범위, 검증 명령 |
+#### 계획 (Plan) — 무엇을 어떤 순서로 만들 것인가
 
-| **구현 (Implement)** | `implement-spec` 또는 `implement`, `test-driven-development` | `subagent-driven-development`, `using-git-worktrees`, `ponytail` | 요구사항에 맞는 소스 변경, 실패 테스트 확인 및 구현 |
+| 스킬 | 왜 이 단계에 | 어떻게 사용되는가 |
+|---|---|---|
+| `to-spec` | 대화만으로는 명세가 없어 구현 범위가 흔들린다 | 대화 내용을 인터뷰 없이 명세+AC로 합성한다 |
+| `to-tickets` | 큰 계획은 차단 관계 있는 단위로 나뉘어야 추적·병렬이 가능하다 | 명세를 티켓 DAG(차단 관계 포함)로 분해한다 |
+| `writing-plans` | 다단계 작업은 코드를 손대기 전에 계획 문서가 필요하다 | 파일 변경 목록·검증 명령을 포함한 실행 계획을 작성한다 |
+| **CRG** | 계획의 파일 범위가 실제 의존 관계와 일치해야 한다 | 영향 노드 조회로 변경 대상 목록을 교차 검증한다 |
 
-| **검증 (Verify)** | `verification-before-completion`, `test-driven-development` | 웹 UI: **Playwright CLI**; 실패 분석: `systematic-debugging`, `diagnosing-bugs`; 영향 범위: **CRG** | 실제 테스트 로그, AC별 PASS/FAIL 근거 |
+#### 구현 (Implement) — 계획대로 최소한으로 만든다
 
-| **리뷰 (Review)** | `code-review`, `requesting-code-review`, `receiving-code-review` | 의존관계·영향도 검토: **CRG** | 리뷰 의견, 수정 사항, 재검증 근거 |
+| 스킬 | 왜 이 단계에 | 어떻게 사용되는가 |
+|---|---|---|
+| `implement` / `implement-spec` | 구현은 명세·티켓 기반이어야 범위 통제가 된다 | `implement`=일반 명세·티켓 기반, `implement-spec`=`to-spec`/`to-tickets` 산출물 전용 구현 |
+| `test-driven-development` | 동작 변경은 테스트가 먼저 있어야 설계가 안정된다 | RED→GREEN→REFACTOR 흐름. 테스트 실행 기록 없이 RED/GREEN 완료 선언 금지 |
+| `ponytail` | 최소 diff 관성이 없으면 기능이 비대해진다 | "가장 작은 완전한 해결"을 우선하도록 우선순위를 강제한다 |
+| `subagent-driven-development` | 독립 태스크는 병렬 실행이 효율적이다 | 계획의 독립 항목을 서브에이전트에게 분산 실행한다 |
+| `using-git-worktrees` | 격리 없는 구현은 작업공간 오염 위험이 있다 | 브랜치 격리 작업공간을 만들고 그 안에서 구현한다 |
 
-| **종료·개선 (Complete)** | `retro` | 완료 Gate: `scripts/workflow.py` | 회고, 최종 승인 기록, `completed/` 이동 |
+#### 검증 (Verify) — 실행 증거 없는 완료는 없다
 
-**구분:** CRG는 CLI·프로젝트 그래프·MCP 연결을 이용하는 코드 분석 도구이고, Playwright CLI는 브라우저 실행 도구입니다. 둘 다 일반 스킬 19개와 같은 단일 `SKILL.md` 구성이 아닙니다. RTK CLI는 단계 배정 없이 에이전트의 셸 명령 출력을 상시 압축하는 도구입니다. `ponytail`은 보조 스킬 파일이며, 별도 플러그인/Hook 기능까지 자동 활성화되는 것은 아닙니다.
+| 스킬 | 왜 이 단계에 | 어떻게 사용되는가 |
+|---|---|---|
+| `verification-before-completion` | 완료 선언은 증거 확보 이후여야 한다 | 검증 명령을 실제 실행하고 출력을 확인하기 전까지 PASS 선언을 금지한다 |
+| `systematic-debugging` | 검증 실패는 즉시 원인 규명 대상이다 | 실패 로그를 가설-검증 루프로 재진단한다 |
+| **CRG** | 회귀 확인은 영향 범위 기반이어야 누락이 없다 | 변경 함수의 호출자·연관 커뮤니티를 조회한다 |
+| **Playwright CLI** (조건부) | 웹 UI는 실제 브라우저에서만 검증 가능하다 | UI 변경 시 사용자 시나리오를 실행하고 화면 증거를 남긴다 |
+
+#### 리뷰 (Review) — 다른 눈으로 표준·명세를 축으로 검토한다
+
+| 스킬 | 왜 이 단계에 | 어떻게 사용되는가 |
+|---|---|---|
+| `code-review` | 변경은 고정점 대비 이중 축(표준·명세)으로 검토되어야 한다 | 커밋·브랜치 이후 diff를 문서화된 기준과 원래 요청 대비로 검토한다 |
+| `requesting-code-review` | 완료 전 검증 요청은 관행이어야 우연에 맡기지 않는다 | 주요 기능·병합 전 검증 체크리스트를 강제한다 |
+| `receiving-code-review` | 피드백 맹종도 품질 문제다 | 기술적으로 검증한 뒤 반영 여부를 판단한다 |
+| **CRG** | 리뷰에 영향도 근거를 입혀 의견을 객관화한다 | 변경의 블래스트 라디우스 데이터를 제공한다 |
+
+#### 완료 (Complete) — 이번 경험을 다음 기준선으로 만든다
+
+| 스킬/장치 | 왜 이 단계에 | 어떻게 사용되는가 |
+|---|---|---|
+| `retro` | 세션 단위 회고로 절차 자체를 개선한다 | 세션 회고를 수행하고 개선점을 정리한다 |
+| `self-improving-agent` | 작업 단위 학습이 규칙으로 축적되어야 복리 효과가 생긴다 | 회고→학습 **제안**→**사용자 승인**→`AGENTS.md` 학습된 규칙 섹션에 기록한다 |
+| 완료 Gate (`workflow.py`) | 스킬과 무관한 이중 안전선이다 | 리뷰·검증 게이트 통과 + 사용자 최종 승인 후에만 `completed/`로 이동한다 |
+
+**구분:** CRG는 CLI·프로젝트 그래프·MCP 연결을 이용하는 코드 분석 도구이고, Playwright CLI는 브라우저 실행 도구입니다. 둘 다 일반 원본 스킬과 같은 단일 `SKILL.md` 구성이 아닙니다. RTK CLI는 단계 배정 없이 에이전트의 셸 명령 출력을 상시 압축하는 도구입니다. `ponytail`은 보조 스킬 파일이며, 별도 플러그인/Hook 기능까지 자동 활성화되는 것은 아닙니다.
 
 ### 5.2 작업 유형별 사용 예시
 
@@ -678,7 +745,7 @@ npx --yes @gon1942/ai-dev-external-framework@latest install-rtk --project . --ag
 
 5. **리뷰:** `code-review`는 리뷰 작업의 방법을 돕고, CRG는 호출 가능할 때 코드 관계·영향도 근거를 제공합니다. CRG 설치 기록이 있어도 **MCP 연결·그래프 생성·실제 질의 성공 여부는 별도로 확인**해야 합니다.
 
-6. **완료:** 스킬 사용 여부와 무관하게 리뷰·검증 Gate를 통과하고 **사용자의 최종 승인**을 받은 뒤에만 `completed/`로 이동합니다. `retro`는 선택적인 개선 활동입니다.
+6. **완료:** 스킬 사용 여부와 무관하게 리뷰·검증 Gate를 통과하고 **사용자의 최종 승인**을 받은 뒤에만 `completed/`로 이동합니다. `retro`로 세션을 회고하고, `self-improving-agent`로 학습을 제안한다(기록은 승인 후).
 
 ### 5.4 에이전트에 요청하는 예시
 
@@ -911,6 +978,15 @@ npx --yes @gon1942/ai-dev-external-framework\@latest repair-session --project .
 
 ## 9. 기존 프로젝트 업그레이드
 
+### v1.3.0+: `upgrade` 명령 (권장 — 모든 구버전 공용)
+
+```bash
+cd /path/to/existing-project
+npx --yes @gon1942/ai-dev-external-framework@latest upgrade --project .
+```
+
+스킬·CRG·Playwright·RTK를 갱신하고 관리 파일(`AGENTS.md`·`docs/PLANS.md`·`.ai-dev/dependency-check.cjs`)을 **3-way 병합**으로 최신화한다. 순정 파일은 자동 교체, 사용자 수정은 보존되며(양쪽 모두 추가한 섹션은 둘 다 유지), 같은 줄을 서로 수정한 경우만 충돌 마커로 알린다. 항상 `.bak-upgrade` 백업을 남기고 `--dry-run`으로 예행연습할 수 있다. 아래 절들은 v1.3.0 이전 버전용 역사적 마이그레이션 안내다.
+
 ### v0.8.1에서 새 세션 오류 복구
 
 이미 설치한 프로젝트는 원본 외부 스킬을 다시 다운로드하지 않고 안내문만 복구할 수 있습니다.
@@ -981,7 +1057,7 @@ done
 node .ai-dev/skill-manager.cjs dashboard
 ```
 
-정상 설치 시 원본 스킬 검사 결과는 **OpenCode·Codex·Claude 각각 19/19**, 별도 도구까지 포함한 전체 구성은 **19개 원본 + CRG + Playwright CLI + RTK CLI = 22개**입니다. 브라우저 스킬 파일까지 포함하면 에이전트별 `SKILL.md`는 통상 **20개**입니다. 스킬 파일 존재와 에이전트에서 실제 호출 가능한지는 구분해야 합니다.
+정상 설치 시 원본 스킬 검사 결과는 **OpenCode·Codex·Claude 각각 19/19**, 별도 도구까지 포함한 전체 구성은 **20개 원본 + CRG + Playwright CLI + RTK CLI = 23개**입니다. 브라우저 스킬 파일까지 포함하면 에이전트별 `SKILL.md`는 통상 **20개**입니다. 스킬 파일 존재와 에이전트에서 실제 호출 가능한지는 구분해야 합니다.
 
 ### 원본 스킬 갱신
 

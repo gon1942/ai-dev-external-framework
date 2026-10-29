@@ -108,6 +108,14 @@
       "source": "rtk-ai/rtk",
       "enabled": true
     },
+    "self-improving-agent": {
+      "kind": "git",
+      "url": "https://github.com/Grail-Computer/Self-Improving-Agent.git",
+      "ref": "010682e45189bc9e00986a909f7872cda6be200d",
+      "directory": "skills/self-improving-agent",
+      "bundled": true,
+      "enabled": true
+    },
     "using-superpowers": {
       "kind": "upstream",
       "source": "superpowers",
@@ -240,6 +248,10 @@
       },
       {
         "id": "retro",
+        "mode": "recommended"
+      },
+      {
+        "id": "self-improving-agent",
         "mode": "recommended"
       }
     ]

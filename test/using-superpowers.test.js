@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..');
 test('21 components register original using-superpowers and all six stages',()=>{
- const policy=require('../skill-policy.json');assert.equal(Object.keys(policy.skills).length,22);
+ const policy=require('../skill-policy.json');assert.equal(Object.keys(policy.skills).length,23);
  assert.deepEqual(policy.skills['using-superpowers'],{kind:'upstream',source:'superpowers',enabled:true});
  for(const stage of ['analyze','plan','implement','verify','review','complete'])assert.ok(policy.stages[stage].some(s=>s.id==='using-superpowers'));
 });

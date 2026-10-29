@@ -3,7 +3,7 @@
 const fs=require('node:fs');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const skills=['grill-with-docs','to-spec','to-tickets','implement','implement-spec','code-review','retro','diagnosing-bugs','brainstorming','writing-plans','test-driven-development','systematic-debugging','verification-before-completion','requesting-code-review','receiving-code-review','using-git-worktrees','subagent-driven-development','ponytail','using-superpowers'];
+const skills=['grill-with-docs','to-spec','to-tickets','implement','implement-spec','code-review','retro','diagnosing-bugs','brainstorming','writing-plans','test-driven-development','systematic-debugging','verification-before-completion','requesting-code-review','receiving-code-review','using-git-worktrees','subagent-driven-development','ponytail','using-superpowers','self-improving-agent'];
 const agents={opencode:'.opencode/skills',codex:'.agents/skills',claude:'.claude/skills'};
 console.log('=== 외부 스킬 설치 현황 (세션 시작) ===');
 let missing=0;
@@ -39,5 +39,5 @@ console.log('[Playwright CLI] '+(pwInstalled?'설치 확인 (브라우저 실행
 let rtkBin=false;try{const r=require('node:child_process').spawnSync(process.env.RTK_BIN||path.join(require('node:os').homedir(),'.local','bin','rtk'),['--version'],{encoding:'utf8',timeout:10000});rtkBin=!r.error&&r.status===0}catch{}
 let rtkRec=false;try{rtkRec=JSON.parse(fs.readFileSync(path.join(root,'.ai-dev','rtk-install.json'),'utf8')).agents.length>0}catch{}
 console.log('[RTK CLI] '+(rtkBin&&rtkRec?'설치 확인 (명령 출력 압축 · 텔레메트리 기본 OFF)':'미설치 (바이너리 '+(rtkBin?'있음':'없음')+' · 설치기록 '+(rtkRec?'있음':'없음')+')'));
-console.log('[전체] 기본 구성 요소: 외부 원본 19종 + CRG 1종 + Playwright CLI 1종 + RTK CLI 1종 = 22종');
+console.log('[전체] 기본 구성 요소: 외부 원본 20종 + CRG 1종 + Playwright CLI 1종 + RTK CLI 1종 = 23종');
 if(!pwInstalled||!rtkBin||!rtkRec)process.exitCode=1;

@@ -10,7 +10,7 @@
 | 구현(Implement) | `workflow.py gate --id TASK-001 --stage implement` 검사 후 원본 TDD 스킬 적용 | 소스·테스트·선택적 RED 증거 |
 | 검증(Verify) | `workflow.py run --id TASK-001 --ac AC-01 -- python3 -m pytest tests/test_feature.py` | 실행 시각이 포함된 로그, 종료 코드, 소스 지문 |
 | 리뷰(Review) | `workflow.py gate --id TASK-001 --stage review` 검사, 가능하면 독립적 원본 `code-review` 사용, `workflow.py review --id TASK-001 --verdict PASS --notes-file review.md` 기록 | 실질적 리뷰 메모. 독립성은 자동으로 검증되지 않음 |
-| 완료(Complete) | `workflow.py gate --id TASK-001 --stage complete` 검사 후 **대화에서 사용자에게 완료 승인 요청**. 명시적 승인 후에만 `workflow.py complete --id TASK-001 --user-confirmed` 실행 | 작업 폴더를 `completed/`로 이동 |
+| 완료(Complete) | `workflow.py gate --id TASK-001 --stage complete` 검사 후 **자기교정 회고**: `self-improving-agent` 스킬로 이번 작업의 학습 사항을 정리하고 `AGENTS.md` 학습된 규칙 섹션 수정을 **제안**한다(기록은 사용자 승인 후). 이후 **대화에서 사용자에게 완료 승인 요청**. 명시적 승인 후에만 `workflow.py complete --id TASK-001 --user-confirmed` 실행 | 작업 폴더를 `completed/`로 이동 |
 
 사용자와는 자연어로 소통하면 충분하다. 에이전트가 내부 명령을 직접 실행하며 사용자에게 명령 복사를 요구하지 않는다. `--user-confirmed`는 에이전트의 승인 확인 기록이지 **사람의 신원을 증명하는 수단이 아니다.** 자동 승인하지 않는다. 리뷰 FAIL이면 구현·검증으로 돌아가 테스트를 다시 수행한다. 오래된 리뷰로 완료 처리할 수 없다.
 

@@ -13,7 +13,7 @@ test('one-command init creates project and installs all 19 original-layout fixtu
   const dest=path.join(base,'project');const r=execute(['init',dest,'--source-dir',path.join(base,'source'),'--skip-crg','--skip-playwright','--skip-rtk']);
   assert.equal(r.status,0,r.stderr);assert.match(r.stdout,/INIT COMPLETE/);
   assert.ok(fs.existsSync(path.join(dest,'AGENTS.md')));
-  for(const location of ['.agents/skills','.opencode/skills','.claude/skills'])assert.equal(fs.readdirSync(path.join(dest,location)).length,19);
+  for(const location of ['.agents/skills','.opencode/skills','.claude/skills'])assert.equal(fs.readdirSync(path.join(dest,location)).length,20);
   assert.ok(fs.existsSync(path.join(dest,'.external-skills-lock.json')));
  }finally{fs.rmSync(base,{recursive:true,force:true})}
 });
