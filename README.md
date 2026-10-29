@@ -271,43 +271,26 @@ my-project/
 ### 폴더별 역할
 
 | 경로 | 목적 | 포함 파일·작성 시점 |
-
 |---|---|---|
-
 | `ai-workflow/` | 에이전트 공통 작업 규칙 | `POLICY.md`에 사용자 승인·검증 증거·보안 원칙, `EXTERNAL-SKILLS.md`에 원본 스킬 참고 사항을 기록합니다. 작업 시작 전에 확인합니다. |
-
 | `design-docs/` | 프로젝트 주요 설계 문서 | `index.md`로 중요한 설계 문서를 연결하고, `core-beliefs.md`에 설계 원칙을 정리합니다. 설계·구조 변경 시 작성합니다. |
-
 | `exec-plans/` | 개별 개발 작업의 실행 근거 | 작업별 분석·명세·계획·실행 결과·리뷰 이력을 관리합니다. 공통 기술 부채는 `tech-debt-tracker.md`에 기록합니다. |
-
 | `exec-plans/active/` | 진행 중 작업 | `workflow.py new` 이후 `TASK-ID/` 아래 `analysis.md`, `spec.md`, `plan.md`, `ac-tests.json`, `status.json` 등을 저장합니다. |
-
 | `exec-plans/completed/` | 완료 작업의 보관 | 최종 사용자 승인과 완료 조건 충족 후 `workflow.py complete`가 처리한 작업을 보관합니다. |
-
 | `generated/` | 생성·추출된 기술 문서 | 초기 `db-schema.md`는 자리표시자입니다. 실제 스키마를 추출·검증한 후 교체합니다. |
-
 | `product-specs/` | 주요 제품 명세 색인 | `index.md`에서 주요 명세로 연결합니다. 작업별 정본 `spec.md`를 이곳에 중복 복제하지 않습니다. |
-
 | `references/` | 외부 기술 참고자료 | `uv-llms.txt`, `nixpacks-llms.txt`, `design-system-reference-llms.txt`는 초기 자리표시자이므로 공식 최신 문서로 간주하지 않습니다. |
 
 ### docs/ 바로 아래 파일
 
 | 파일 | 용도 |
-
 |---|---|
-
 | `PLANS.md` | 분석·계획 승인·구현·검증·리뷰·완료 흐름과 `workflow.py` 실행 규칙 |
-
 | `DESIGN.md` | UI/UX 및 프로젝트 설계 제약을 정리할 기본 문서 |
-
 | `FRONTEND.md` | 프런트엔드 구현 기준의 초기 문서 |
-
 | `PRODUCT_SENSE.md` | 제품 목적과 사용자 가치에 대한 초기 문서 |
-
 | `QUALITY_SCORE.md` | 품질 관점의 지표를 정리할 초기 문서 |
-
 | `RELIABILITY.md` | 서비스 안정성과 운영 요구를 정리할 초기 문서 |
-
 | `SECURITY.md` | 프로젝트 보안 요구를 정리할 초기 문서 |
 
 이 문서들 중 일부는 초기 양식으로만 제공됩니다. 파일이 존재한다고 해당 기준이 이미 정의되거나 검증됐다는 뜻은 아닙니다.
@@ -492,23 +475,14 @@ docs/exec-plans/
 ### Matt Pocock — 8개
 
 | 스킬 | 활용 목적 |
-
 |---|---|
-
 | `grill-with-docs` | 질문으로 요구사항과 누락 조건 구체화 |
-
 | `diagnosing-bugs` | 버그 원인과 재현 조건 분석 |
-
 | `to-spec` | 요구사항을 명세로 정리 |
-
 | `to-tickets` | 명세를 실행 가능한 작업으로 분해 |
-
 | `implement` | 정의된 작업의 구현 지원 |
-
 | `implement-spec` | 명세에 근거한 구현 지원 |
-
 | `code-review` | 코드 변경 사항 검토 |
-
 | `retro` | 수행 결과 회고 |
 
 출처: [mattpocock/skills](https\://github.com/mattpocock/skills)
@@ -516,26 +490,16 @@ docs/exec-plans/
 ### Superpowers — 10개
 
 | 스킬 | 활용 목적 |
-
 |---|---|
-
 | `using-superpowers` | 요청·단계에 맞는 관련 스킬을 사전 탐색하고 적용 순서를 판단하도록 안내하는 메타 스킬 |
 | `brainstorming` | 구현 전에 문제와 설계 방향 구체화 |
-
 | `writing-plans` | 구현 계획 구체화 |
-
 | `systematic-debugging` | 체계적인 결함 추적 |
-
 | `test-driven-development` | 실패 테스트 → 구현 → 개선 흐름 지원 |
-
 | `using-git-worktrees` | 독립 작업 공간 활용 |
-
 | `subagent-driven-development` | 하위 에이전트 작업 분담 |
-
 | `verification-before-completion` | 완료 선언 전 실행 검증 |
-
 | `requesting-code-review` | 리뷰 요청 |
-
 | `receiving-code-review` | 리뷰 결과 확인 및 반영 |
 
 출처: [obra/superpowers](https\://github.com/obra/superpowers)
@@ -543,9 +507,7 @@ docs/exec-plans/
 ### Ponytail — 1개
 
 | 스킬 | 활용 목적 |
-
 |---|---|
-
 | `ponytail` | 에이전트 개발 작업 보조 지침 |
 
 출처: [DietrichGebert/ponytail](https\://github.com/DietrichGebert/ponytail)
@@ -555,9 +517,7 @@ docs/exec-plans/
 ### Code Review Graph (CRG)
 
 | 구성 요소 | 역할 | 구분 |
-
 |---|---|---|
-
 | **`code-review-graph` (CRG)** | 코드 구조·호출 관계·의존성·변경 영향 분석을 지원 | **Python CLI + MCP + 코드 그래프** (일반 스킬과 별도) |
 
 출처: [tirth8205/code-review-graph](https\://github.com/tirth8205/code-review-graph)
@@ -720,17 +680,11 @@ npx --yes @gon1942/ai-dev-external-framework@latest install-rtk --project . --ag
 ### 5.2 작업 유형별 사용 예시
 
 | 사용자 요청 예시 | 권장 흐름 | 핵심 도구 |
-
 |---|---|---|
-
 | "신규 기능을 만들어줘" | 요구 분석 → 명세·AC → 계획 승인 → TDD 구현 → 검증 → 리뷰 | `to-spec` → `writing-plans` → `implement-spec` + `test-driven-development` → `verification-before-completion` → `code-review` |
-
 | "기존 버그를 수정해줘" | 재현·원인 분석 → 수정 계획 → 회귀 테스트 → 검증 | `diagnosing-bugs` / `systematic-debugging` → `writing-plans` → `test-driven-development` → `verification-before-completion` |
-
 | "대규모 리팩터링을 해줘" | 구조·의존성 파악 → 작업 분해 → 격리 구현 → 영향 검증 | **CRG** → `to-tickets` + `writing-plans` → `using-git-worktrees` / `subagent-driven-development` → `code-review` |
-
 | "변경한 코드를 검토해줘" | 리뷰 요청 → 코드·영향도 분석 → 피드백 반영 → 재검증 | `requesting-code-review` → `code-review` + **CRG(선택)** → `receiving-code-review` → `verification-before-completion` |
-
 | "웹 UI가 실제로 동작하는지 확인해줘" | 시나리오 정의 → 브라우저 실행 → 결과 기록 | **Playwright CLI** → `verification-before-completion` |
 
 ### 5.3 각 단계의 적용 원칙
@@ -945,33 +899,19 @@ npx --yes @gon1942/ai-dev-external-framework\@latest repair-session --project .
 ```
 
 | 명령 | 설명 | 참고 |
-
 |---|---|---|
-
 | `init <경로>` | 새/기존 프로젝트 초기화 및 원본 스킬·CRG·Playwright·정책 설치 | 권장 시작점, `--skip-crg`/`--skip-playwright` 가능 |
-
 | `setup` | 문서·로컬 상태 조회 파일·Hook·스킬 관리 명령 설치 | 원본 스킬 다운로드 안 함 |
-
 | `install-skills` | 원본 외부 스킬 다운로드·설치 | GitHub 또는 `--source-dir` 사용 |
-
 | `check-deps` | 스킬·CRG·Playwright 설치 상태 및 누락 항목 조회 | 읽기 전용 |
-
 | `repair-deps` | 누락 스킬·CRG·Playwright만 복구 시도 | 네트워크/권한 필요 |
-
 | `install-crg` | CRG 설치·재시도 | Python 환경 필요 |
-
 | `install-playwright` | Playwright CLI·공식 스킬 설치 | npm 네트워크 필요 |
-
 | `upgrade-session-report` | 기존 프로젝트의 세션 보고 구성 갱신 | 백업 생성 |
-
 | `status` | 현재 프로젝트의 작업 상태 요약 | 프로젝트 로컬 `node` 명령도 사용 가능 |
-
 | `doctor` | 핵심 파일·스킬 디렉터리 존재 확인 | 실제 Hook 작동 여부까지 검증하지 않음 |
-
 | `repair-session` | 구버전 `AGENTS.md`의 알려진 명령 수정 | 백업 생성, 기존 지침 보존 |
-
 | `skill ...` | 중앙 스킬 정책 관리 (목록·배정·동기화 등) | [중앙 스킬 관리](#10-중앙-스킬-관리-스킬-정책) 참고 |
-
 | `work ...` | 로컬 Python 작업 제어기로 인수 전달 | 에이전트 내부 사용에 적합 |
 
 에이전트는 `opencode`, `codex`, `claude`를 평소대로 실행하면 됩니다. 별도의 `ai-dev` 전역 명령이 필수인 구조가 아닙니다.
