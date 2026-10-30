@@ -41,3 +41,21 @@ test('offline full fixture installs 19 upstream skill directories per agent and 
   r=spawnSync('python3',args,{encoding:'utf8'});assert.equal(r.status,0,r.stderr);assert.equal((r.stdout.match(/SKIP IDENTICAL/g)||[]).length,57);
  }finally{fs.rmSync(p,{recursive:true,force:true});fs.rmSync(src,{recursive:true,force:true})}
 });
+
+test('sessionStatus warns on orphan and dual-presence task folders',()=>{const p=temp();try{
+  const done=path.join(p,'docs/exec-plans/completed/TASK-001');fs.mkdirSync(done,{recursive:true});fs.writeFileSync(path.join(done,'status.json'),JSON.stringify({id:'TASK-001',title:'Done',approved:true}));
+  fs.mkdirSync(path.join(p,'docs/exec-plans/active/TASK-001/evidence'),{recursive:true});
+  const s=sessionStatus(p);assert.equal(s.active_count,0);assert.ok(s.warnings.some(w=>/TASK-001.*orphan/.test(w)));assert.ok(s.warnings.some(w=>/TASK-001.*both active and completed/.test(w)));
+ }finally{fs.rmSync(p,{recursive:true,force:true})}
+});
+test('workflow.py session warns on orphans and resolves real completed task despite active orphan',()=>{
+  const p=temp();try{
+   fs.mkdirSync(path.join(p,'scripts'),{recursive:true});fs.copyFileSync(path.resolve(__dirname,'../scripts/workflow.py'),path.join(p,'scripts','workflow.py'));
+   const done=path.join(p,'docs/exec-plans/completed/TASK-001');fs.mkdirSync(done,{recursive:true});fs.writeFileSync(path.join(done,'status.json'),JSON.stringify({id:'TASK-001',title:'Done',approved:true}));
+   fs.mkdirSync(path.join(p,'docs/exec-plans/active/TASK-001/evidence'),{recursive:true});
+   const r=spawnSync('python3',[path.join(p,'scripts','workflow.py'),'session'],{encoding:'utf8'});
+   assert.equal(r.status,0,r.stderr);assert.match(r.stdout,/WARNING: docs\/exec-plans\/active\/TASK-001 orphan folder without status\.json/);assert.match(r.stdout,/WARNING: docs\/exec-plans\/active\/TASK-001 task folder exists in both active and completed/);
+   const ap=spawnSync('python3',[path.join(p,'scripts','workflow.py'),'approve','--id','TASK-001','--user-confirmed'],{encoding:'utf8'});
+   assert.match(ap.stderr,/completed task/);
+  }finally{fs.rmSync(p,{recursive:true,force:true})}
+});

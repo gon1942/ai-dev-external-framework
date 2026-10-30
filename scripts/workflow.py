@@ -8,7 +8,7 @@ def get(task):
  if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{1,79}',task):raise ValueError('invalid task ID')
  for state in ['active','completed']:
   p=BASE/state/task
-  if p.is_dir():return p
+  if p.is_dir() and (p/'status.json').is_file():return p
  raise ValueError(f'unknown task: {task}')
 def meta(p):return json.loads((p/'status.json').read_text())
 def save(p,data):(p/'status.json').write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
@@ -79,6 +79,13 @@ def main():
      tasks.append({'id':q.name,'title':d.get('title',''), 'phase':phase,'path':str(q.relative_to(ROOT)),'created_at':d.get('created_at',''),'issue':issue})
     except (ValueError,OSError,KeyError,json.JSONDecodeError) as e:
      problems.append({'path':str(q.relative_to(ROOT)),'error':str(e)})
+  for state in states:
+   if (BASE/state).is_dir():
+    for d in sorted((BASE/state).iterdir()):
+     if d.is_dir() and not (d/'status.json').is_file():problems.append({'path':str(d.relative_to(ROOT)),'error':'orphan folder without status.json'})
+  if (BASE/'active').is_dir() and (BASE/'completed').is_dir():
+   for d in sorted((BASE/'active').iterdir()):
+    if d.is_dir() and (BASE/'completed'/d.name).is_dir():problems.append({'path':str(d.relative_to(ROOT)),'error':'task folder exists in both active and completed'})
   order={'REVERIFY_OR_REVIEW':0,'IMPLEMENT_OR_VERIFY':1,'INDEPENDENT_REVIEW_REQUIRED':2,'PLAN_DRAFT':3,'PLAN_APPROVAL_REQUIRED':4,'COMPLETION_APPROVAL_REQUIRED':5,'COMPLETED':6}
   tasks.sort(key=lambda d:(order.get(d['phase'],99), d['id']))
   payload={'project':str(ROOT),'active_count':sum(t['phase']!='COMPLETED' for t in tasks),'tasks':tasks,'warnings':problems}
