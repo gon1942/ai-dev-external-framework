@@ -1,25 +1,25 @@
-# Plan: upgrade 명령 구현 (3-way 병합 기반 기존 프로젝트 최신화)
+# Plan: airun AGENTS.md·AGENTS-opencode.md 인라인 규칙 적용
 - 상태: active
-- 생성: 2026-10-29, 브랜치: main, 세션: gon-20261028-0945
-- 요청: 기존 프로젝트 최신화 — 사용자 커스텀 보존 3-way 병합 upgrade 명령 (BUILD 승인됨)
+- 생성: 2026-10-30, 브랜치: N/A(airun proj는 git 아님), 세션: gon-20261030-opencode
+- 요청: airun 프로젝트에 프레임워크 인라인 규칙 직접 수정 적용 (사용자 승인)
 
 ## Plan
-- **Task Summary**: `npx ai-dev upgrade` 한 명령으로 스킬/도구 갱신 + 관리 파일(AGENTS.md·PLANS.md·dependency-check.cjs) 3-way 병합 갱신
-- **Scope**:
-  1. `lib/upgrade.js` 신규 — 관리 파일별: 순정(base 매칭)→자동교체/3-way 병합(git merge-file)/base 미발견→제안본/미존재→생성. 항상 .bak-upgrade 백업, --dry-run 지원, 매니페스트(.ai-dev/managed-files.json) 기록·사용
-  2. `templates-history/` 신규 — 과거 템플릿 스냅샷(병합 base용, npm 패키지에 포함 — npx엔 git history 없음)
-  3. `lib/init.js` — 설치 시 매니페스트 기록(향후 upgrade의 완전한 base)
-  4. `bin/ai-dev.js` — upgrade 명령·help
-  5. `test/upgrade.test.js` — 순정교체/커스텀보존/충돌마커/제안본/dry-run/매니페스트 (합성 템플릿으로 주입형 테스트)
-  6. package.json 1.3.0 + files에 templates-history 추가, README upgrade 절
-- **Non-Goals**: docs/ai-workflow 하위 개별 문서 병합(필요 시 후속), 자동 커밋, 충돌 자동해결(사용자 확정)
-- **Risks**: base 미매칭 레거시 → 제안본 폴백으로 안전 처리. git merge-file 의존(git 필수 — 이미 installGit이 의존)
-- **Verification Strategy**: 단위 테스트 + 실전 검증(t-dd 순정 → 자동교체, my-project → 병합, airun 커스텀 → 보존/충돌 확인)
-- **Definition of Done**: 테스트 전부 통과 + 실제 3개 프로젝트(t-dd·my-project·airun) upgrade 성공 + 1.3.0 발행 준비
+- **Task Summary**: airun proj의 AGENTS.md §3에 스킬 로드·정본 경로 2줄 추가, AGENTS-opencode.md 코디네이터 절에 worker-start spec 스킬 명시 1줄 추가
+- **Scope**: 위 2개 파일, 총 3줄 추가. 문구는 프레임워크 templates/AGENTS.md에 반영한 것과 동일
+- **Non-Goals**: AGENTS-codex.md dangling 참조 정리(별도), t2 정리, airun 워커 교체(기존 설계 유지)
+- **Affected Areas**: `/home/gon/work/airun_proj/airun-saas/proj/AGENTS.md`, `.../AGENTS-opencode.md`
+- **Risks**: 없음 — 문서 추가만. airun proj는 git이 아니라 되돌리기는 수동
+- **Verification Strategy**: 수정 후 grep read-back으로 3줄 존재·위치 확인
+- **Definition of Done**: 3줄 추가 확인
 
 ## Task Breakdown
-- [ ] 과거 템플릿 base 수집 (git history + 백업)
-- [ ] lib/upgrade.js + init 매니페스트 + bin 명령
-- [ ] 테스트 작성·통과
-- [ ] 실전 3개 프로젝트 검증
-- [ ] README·버전·발행 준비
+- [ ] AGENTS.md §3 불릿 2개 추가
+- [ ] AGENTS-opencode.md 코디네이터 절 1줄 추가
+- [ ] grep 검증
+
+## 완료 기록
+- 완료일시: 2026-10-30
+- 수정 파일: airun proj/AGENTS.md L38-39 (+2), proj/AGENTS-opencode.md L42 (+1)
+- 검증 결과: grep read-back 3줄 위치·존재 확인 (airun proj는 git 아님 — git diff 불가)
+- DIFF-REVIEW: PASS (계획 3줄과 정확 일치, 범위 외 변경 없음)
+- 커밋: 해당 없음 (git 아님)

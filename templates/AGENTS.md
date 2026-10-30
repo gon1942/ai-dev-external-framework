@@ -31,6 +31,8 @@ python3 scripts/workflow.py session
 - 승인·보안·검증 정책: `docs/ai-workflow/POLICY.md`
 - 단계별 스킬 배정: `.ai-dev/stage-skills.json`
 - 실제 작업 제어 및 명령 확인: `python3 scripts/workflow.py --help`
+- 단계 진입 시 `.ai-dev/stage-skills.json`에 배정된 스킬을 실제로 로드하여 사용하고, 호출 여부를 작업 기록에 남긴다.
+- 작업의 정본 계획·명세·증거는 `docs/exec-plans/active/TASK-ID/`에 둔다. 다른 경로의 계획 문서는 작업 미러일 수 있으나 정본을 대체하지 않는다.
 
 
 각 단계 진입 시 적용 지침과 활성 원본 스킬을 확인한다. `using-superpowers`가 설치되어 있으면 적용 가능성을 판단하되, 스킬 선택과 실제 호출을 구분한다. 단계 게이트와 검증 증거가 문서상 선언에 우선한다.
