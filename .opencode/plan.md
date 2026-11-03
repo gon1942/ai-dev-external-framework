@@ -1,25 +1,24 @@
-# Plan: airun AGENTS.md·AGENTS-opencode.md 인라인 규칙 적용
+# Plan: airun에 UI/UX 스킬 3종 반영
 - 상태: active
-- 생성: 2026-10-30, 브랜치: N/A(airun proj는 git 아님), 세션: gon-20261030-opencode
-- 요청: airun 프로젝트에 프레임워크 인라인 규칙 직접 수정 적용 (사용자 승인)
+- 생성: 2026-10-30, 브랜치: N/A(airun은 git 아님), 세션: gon-20261030-opencode
+- 요청: airun 프로젝트에 frontend-design/ux-audit/tastemaker 설치 (로컬 프레임워크 정책으로 직접 sync)
 
 ## Plan
-- **Task Summary**: airun proj의 AGENTS.md §3에 스킬 로드·정본 경로 2줄 추가, AGENTS-opencode.md 코디네이터 절에 worker-start spec 스킬 명시 1줄 추가
-- **Scope**: 위 2개 파일, 총 3줄 추가. 문구는 프레임워크 templates/AGENTS.md에 반영한 것과 동일
-- **Non-Goals**: AGENTS-codex.md dangling 참조 정리(별도), t2 정리, airun 워커 교체(기존 설계 유지)
-- **Affected Areas**: `/home/gon/work/airun_proj/airun-saas/proj/AGENTS.md`, `.../AGENTS-opencode.md`
-- **Risks**: 없음 — 문서 추가만. airun proj는 git이 아니라 되돌리기는 수동
-- **Verification Strategy**: 수정 후 grep read-back으로 3줄 존재·위치 확인
-- **Definition of Done**: 3줄 추가 확인
+- **Task Summary**: airun 엔진 갱신(루트 레이아웃+라이선스 동반 지원) → 프레임워크 bin으로 sync --install-custom → 3에이전트 경로 검증
+- **Scope**: airun/.ai-dev/skill-manager-engine.cjs 교체, skill sync(신규 3종 설치 + stage-skills.json/lock 갱신), 신규 스킬 디렉터리 9개
+- **Non-Goals**: 기존 스킬 재설치, AGENTS 문서 변경, npm publish, dependency-check 목록 갱신(프레임워크 후속 과제로 기록)
+- **Risks**: airun stage-skills.json에 비관리 수정이 있으면 sync 거부 → 사전 lock hash 확인. airun은 git 아님(되돌리기 수동)
+- **Verification Strategy**: dry-run 선행, 설치 후 3에이전트×3종 SKILL.md·라이선스·.git 부재 확인
+- **Definition of Done**: 3종 3에이전트 설치 + stage-skills.json 갱신 확인
 
 ## Task Breakdown
-- [ ] AGENTS.md §3 불릿 2개 추가
-- [ ] AGENTS-opencode.md 코디네이터 절 1줄 추가
-- [ ] grep 검증
+- [ ] 엔진 파일 교체
+- [ ] dry-run 확인
+- [ ] 실설치 + 검증
 
 ## 완료 기록
 - 완료일시: 2026-10-30
-- 수정 파일: airun proj/AGENTS.md L38-39 (+2), proj/AGENTS-opencode.md L42 (+1)
-- 검증 결과: grep read-back 3줄 위치·존재 확인 (airun proj는 git 아님 — git diff 불가)
-- DIFF-REVIEW: PASS (계획 3줄과 정확 일치, 범위 외 변경 없음)
-- 커밋: 해당 없음 (git 아님)
+- 수정 파일: airun/.ai-dev/skill-manager-engine.cjs(엔진 교체), .ai-dev/stage-skills.json+lock(정책 sync), 신규 스킬 디렉터리 9개(3종×3에이전트)
+- 검증: dry-run 통과, 9경로 SKILL.md·라이선스 동반·.git 부재 확인, stage 배정(analyze/verify=ux-audit, plan/implement=frontend-design, review=tastemaker) 반영 확인
+- DIFF-REVIEW: PASS (airun은 git 아님 — read-back 검증으로 갈음)
+- 커밋: 해당 없음

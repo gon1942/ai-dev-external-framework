@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "1.0.1",
+  "skills": {
+    "grill-with-docs": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "to-spec": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "to-tickets": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "implement": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "implement-spec": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "code-review": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "retro": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "diagnosing-bugs": {
+      "kind": "upstream",
+      "source": "mattpocock",
+      "enabled": true
+    },
+    "brainstorming": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "writing-plans": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "test-driven-development": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "systematic-debugging": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "verification-before-completion": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "requesting-code-review": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "receiving-code-review": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "using-git-worktrees": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "subagent-driven-development": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "ponytail": {
+      "kind": "upstream",
+      "source": "ponytail",
+      "enabled": true
+    },
+    "code-review-graph": {
+      "kind": "crg",
+      "source": "code-review-graph",
+      "enabled": true
+    },
+    "playwright-cli": {
+      "kind": "playwright",
+      "source": "microsoft/playwright",
+      "package": "@playwright/cli",
+      "enabled": true
+    },
+    "rtk": {
+      "kind": "rtk",
+      "source": "rtk-ai/rtk",
+      "enabled": true
+    },
+    "self-improving-agent": {
+      "kind": "git",
+      "url": "https://github.com/Grail-Computer/Self-Improving-Agent.git",
+      "ref": "010682e45189bc9e00986a909f7872cda6be200d",
+      "directory": "skills/self-improving-agent",
+      "bundled": true,
+      "enabled": true
+    },
+    "using-superpowers": {
+      "kind": "upstream",
+      "source": "superpowers",
+      "enabled": true
+    },
+    "frontend-design": {
+      "kind": "git",
+      "url": "https://github.com/anthropics/skills.git",
+      "ref": "ca45fc496a3436251f191354091d557da31c15b5",
+      "directory": "skills/frontend-design",
+      "enabled": true
+    },
+    "ux-audit": {
+      "kind": "git",
+      "url": "https://github.com/paulunemoon/ux-audit-skill.git",
+      "ref": "f07ff7607039a846fba1e711bb99716a68b12f34",
+      "directory": ".",
+      "enabled": true
+    },
+    "tastemaker": {
+      "kind": "git",
+      "url": "https://github.com/Thecsiz/tastemaker.git",
+      "ref": "e39f724b0596e73931ab2884c812d945f4bb0cbc",
+      "directory": "skills/tastemaker",
+      "enabled": true
+    }
+  },
+  "stages": {
+    "analyze": [
+      {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
+      {
+        "id": "grill-with-docs",
+        "mode": "recommended"
+      },
+      {
+        "id": "brainstorming",
+        "mode": "recommended"
+      },
+      {
+        "id": "diagnosing-bugs",
+        "mode": "recommended"
+      },
+      {
+        "id": "systematic-debugging",
+        "mode": "recommended"
+      },
+      {
+        "id": "code-review-graph",
+        "mode": "recommended"
+      },
+      {
+        "id": "ux-audit",
+        "mode": "recommended"
+      }
+    ],
+    "plan": [
+      {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
+      {
+        "id": "to-spec",
+        "mode": "recommended"
+      },
+      {
+        "id": "to-tickets",
+        "mode": "recommended"
+      },
+      {
+        "id": "writing-plans",
+        "mode": "recommended"
+      },
+      {
+        "id": "code-review-graph",
+        "mode": "recommended"
+      },
+      {
+        "id": "frontend-design",
+        "mode": "recommended"
+      }
+    ],
+    "implement": [
+      {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
+      {
+        "id": "implement",
+        "mode": "recommended"
+      },
+      {
+        "id": "implement-spec",
+        "mode": "recommended"
+      },
+      {
+        "id": "test-driven-development",
+        "mode": "recommended"
+      },
+      {
+        "id": "ponytail",
+        "mode": "recommended"
+      },
+      {
+        "id": "subagent-driven-development",
+        "mode": "recommended"
+      },
+      {
+        "id": "frontend-design",
+        "mode": "recommended"
+      }
+    ],
+    "verify": [
+      {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
+      {
+        "id": "verification-before-completion",
+        "mode": "recommended"
+      },
+      {
+        "id": "systematic-debugging",
+        "mode": "recommended"
+      },
+      {
+        "id": "code-review-graph",
+        "mode": "recommended"
+      },
+      {
+        "id": "playwright-cli",
+        "mode": "conditional"
+      },
+      {
+        "id": "ux-audit",
+        "mode": "recommended"
+      }
+    ],
+    "review": [
+      {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
+      {
+        "id": "code-review",
+        "mode": "recommended"
+      },
+      {
+        "id": "requesting-code-review",
+        "mode": "recommended"
+      },
+      {
+        "id": "receiving-code-review",
+        "mode": "recommended"
+      },
+      {
+        "id": "code-review-graph",
+        "mode": "recommended"
+      }
+    ],
+    "complete": [
+      {
+        "id": "using-superpowers",
+        "mode": "recommended"
+      },
+      {
+        "id": "retro",
+        "mode": "recommended"
+      },
+      {
+        "id": "self-improving-agent",
+        "mode": "recommended"
+      }
+    ]
+  }
+}

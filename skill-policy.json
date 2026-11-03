@@ -120,6 +120,27 @@
       "kind": "upstream",
       "source": "superpowers",
       "enabled": true
+    },
+    "frontend-design": {
+      "kind": "git",
+      "url": "https://github.com/anthropics/skills.git",
+      "ref": "ca45fc496a3436251f191354091d557da31c15b5",
+      "directory": "skills/frontend-design",
+      "enabled": true
+    },
+    "ux-audit": {
+      "kind": "git",
+      "url": "https://github.com/paulunemoon/ux-audit-skill.git",
+      "ref": "f07ff7607039a846fba1e711bb99716a68b12f34",
+      "directory": ".",
+      "enabled": true
+    },
+    "tastemaker": {
+      "kind": "git",
+      "url": "https://github.com/Thecsiz/tastemaker.git",
+      "ref": "e39f724b0596e73931ab2884c812d945f4bb0cbc",
+      "directory": "skills/tastemaker",
+      "enabled": true
     }
   },
   "stages": {
@@ -147,6 +168,10 @@
       {
         "id": "code-review-graph",
         "mode": "recommended"
+      },
+      {
+        "id": "ux-audit",
+        "mode": "recommended"
       }
     ],
     "plan": [
@@ -168,6 +193,10 @@
       },
       {
         "id": "code-review-graph",
+        "mode": "recommended"
+      },
+      {
+        "id": "frontend-design",
         "mode": "recommended"
       }
     ],
@@ -195,6 +224,10 @@
       {
         "id": "subagent-driven-development",
         "mode": "recommended"
+      },
+      {
+        "id": "frontend-design",
+        "mode": "recommended"
       }
     ],
     "verify": [
@@ -217,6 +250,10 @@
       {
         "id": "playwright-cli",
         "mode": "conditional"
+      },
+      {
+        "id": "ux-audit",
+        "mode": "recommended"
       }
     ],
     "review": [
@@ -238,6 +275,10 @@
       },
       {
         "id": "code-review-graph",
+        "mode": "recommended"
+      },
+      {
+        "id": "tastemaker",
         "mode": "recommended"
       }
     ],
