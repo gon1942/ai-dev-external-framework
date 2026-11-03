@@ -52,6 +52,7 @@ function isLegacyProject(root) {
 }
 function changes(root) {
   return [
+    'upgrade-report-contract',
     'upgrade-document-sources', 'upgrade-opencode-config', 'upgrade-self-improvement',
     'upgrade-worker-dispatch', 'upgrade-coordinator-recovery', 'upgrade-skills'
   ].map(command => ({ command, root }));

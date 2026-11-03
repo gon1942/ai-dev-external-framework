@@ -17,3 +17,7 @@ Task-type TDD: inspect state.json tdd policy. For required types, create and run
 - IMPLEMENT/VERIFY/REVIEW: 승인된 Plan이 가리키는 문서만 우선 읽고, 추가 자료가 필요하면 범위·승인 조건을 확인한다. 검증은 AC와 실행 증거 기준이며 참고문서 읽기를 검증 완료로 간주하지 않는다.
 - COMPLETE: 실제 구현으로 바뀐 설계 사항의 정본 갱신 여부를 확인한다. 설계 변경도 승인된 범위를 넘어 자동 수정하지 않는다.
 - 모든 작업에 `design-docs`/`references` 문서 작성을 강제하지 않는다. 전체 폴더의 무차별 읽기, 대용량 자료의 매 턴 로딩, 외부 링크의 무검증 사실화 금지. 자세한 규칙은 `docs/DOCUMENT-SOURCES.md` 참고.
+
+## Worker report input (v0.19.1)
+
+Use `teamdev report-template` → populate actual evidence → `teamdev report-check` → `teamdev report`. `--file` accepts JSON only (`report.md` is for humans). Use separate `implementer-input.json`, not CLI-owned `worker-report.json`; exact status is `implemented`. See `docs/WORKER-REPORT.md`.

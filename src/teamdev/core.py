@@ -272,29 +272,86 @@ def dispatch(root: Path, task: str, actor: str) -> dict:
     return handoff
 
 
+def report_template(root: Path, task: str, worker: str = "implementer", output: Path | None = None) -> dict:
+    """Generate an illustrative input contract, never manufacture evidence or task success."""
+    s, p = _load(root, task)
+    if s['stage'] != 'IMPLEMENT':
+        raise WorkflowError(f"보고서 템플릿은 IMPLEMENT 단계에서만 생성합니다 (현재 {s['stage']})")
+    if not isinstance(worker, str) or not worker.strip():
+        raise WorkflowError('worker는 비어 있지 않은 문자열이어야 합니다')
+    sample = {'task': task, 'status': 'implemented', 'worker': worker,
+              'changed_files': [], 'evidence': []}
+    if output is not None:
+        output = output if output.is_absolute() else root / output
+        if output.exists():
+            raise WorkflowError(f'기존 파일을 덮어쓸 수 없습니다: {output}')
+        # The input is an unverified template, not a successful worker report.
+        atomic_json(output, sample)
+    return {'template': sample, 'output': str(output) if output else None,
+            'note': 'changed_files와 evidence에는 실제 결과만 넣으세요. evidence는 TASK evidence/ 아래 실제 파일명(최소 1개)이며, report.md나 worker-report.json을 --file로 지정하지 마세요.'}
+
+
+def _validate_report_payload(root: Path, task: str, report: object, p: dict) -> dict:
+    if not isinstance(report, dict):
+        raise WorkflowError('보고서는 JSON 객체여야 합니다')
+    if report.get('task') != task:
+        raise WorkflowError(f'report.task 오류: 예상 {task!r}, 실제 {report.get("task")!r}')
+    if report.get('status') != 'implemented':
+        raise WorkflowError(f'report.status 오류: 정확히 "implemented"이어야 합니다 (실제 {report.get("status")!r})')
+    if not isinstance(report.get('worker'), str) or not report['worker'].strip():
+        raise WorkflowError('report.worker 오류: 구현자 이름(비어 있지 않은 문자열)이 필요합니다')
+    files = report.get('changed_files')
+    if not isinstance(files, list) or any(not isinstance(f, str) or not f.strip() for f in files):
+        raise WorkflowError('report.changed_files 오류: 파일 경로 문자열의 배열이 필요합니다')
+    evidence = report.get('evidence')
+    if not isinstance(evidence, list) or not evidence:
+        raise WorkflowError('report.evidence 오류: TASK evidence/ 아래 존재하는 증거 파일명이 최소 1개 필요합니다')
+    evidences = []
+    base = p['evidence'].resolve()
+    for item in evidence:
+        if not isinstance(item, str) or not item.strip():
+            raise WorkflowError('report.evidence 오류: 증거 파일명은 비어 있지 않은 문자열이어야 합니다')
+        rel = Path(item)
+        if rel.is_absolute() or '..' in rel.parts:
+            raise WorkflowError(f'report.evidence 오류: 상대 경로만 허용합니다: {item}')
+        candidate = (p['evidence'] / rel)
+        if not candidate.is_file() or not candidate.resolve().is_relative_to(base):
+            raise WorkflowError(f'report.evidence 파일이 없거나 TASK 증거 폴더 밖입니다: {item}')
+        evidences.append({'file': item, 'sha256': digest(candidate)})
+    if 'tdd' in _load(root, task)[0]:
+        from . import tdd
+        tdd.check(root, task, report=report)
+    return {'evidence_checksums': evidences}
+
+
+def report_check(root: Path, task: str, report_file: Path) -> dict:
+    """Read-only validation: never changes state, report or evidence."""
+    s, p = _load(root, task)
+    _assert_stage(s, 'IMPLEMENT')
+    if s['status'] != 'DISPATCHED' or s.get('rotation', {}).get('phase') != 'ACTIVE':
+        raise WorkflowError('report-check는 IMPLEMENT/DISPATCHED/ACTIVE에서만 가능합니다. 이미 보고됐다면 teamdev next TASK를 확인하세요')
+    _ensure_plan_not_changed(s, p)
+    report_file = report_file if report_file.is_absolute() else root / report_file
+    if report_file.suffix.lower() != '.json':
+        raise WorkflowError('report --file에는 .json 입력 파일이 필요합니다. report.md는 사람이 읽는 Markdown입니다')
+    if report_file.resolve() == p['report'].resolve():
+        raise WorkflowError('worker-report.json은 CLI 출력 정본입니다. 별도 입력 파일(예: implementer-input.json)을 사용하세요')
+    report = json_read(report_file)
+    result = _validate_report_payload(root, task, report, p)
+    return {'ok': True, 'task': task, 'input': str(report_file), 'evidence_checksums': result['evidence_checksums'],
+            'state_unchanged': True}
+
+
 def register_report(root: Path, task: str, actor: str, report_file: Path) -> dict:
     s, p = _load(root, task)
     _assert_stage(s, "IMPLEMENT")
     if s["status"] != "DISPATCHED" or s.get("rotation", {}).get("phase") != "ACTIVE":
         raise WorkflowError("활성 워커 세션에서만 최종 보고서를 등록할 수 있습니다")
     _ensure_plan_not_changed(s, p)
+    checked = report_check(root, task, report_file)
+    report_file = report_file if report_file.is_absolute() else root / report_file
     report = json_read(report_file)
-    if report.get("task") != task or report.get("status") != "implemented" or not isinstance(report.get("worker"), str) or not report["worker"].strip():
-        raise WorkflowError("보고서 task/status가 유효하지 않습니다")
-    if not isinstance(report.get("changed_files"), list) or not isinstance(report.get("evidence"), list) or not report["evidence"]:
-        raise WorkflowError("changed_files와 evidence 배열(최소 1개)이 필요합니다")
-    # Prevent reports pointing outside the task's evidence directory.
-    evidences = []
-    for item in report["evidence"]:
-        if not isinstance(item, str):
-            raise WorkflowError("evidence 항목은 파일명이어야 합니다")
-        candidate = p["evidence"] / item
-        if not candidate.is_file() or not candidate.resolve().is_relative_to(p["evidence"].resolve()):
-            raise WorkflowError(f"잘못된 증거 파일: {item}")
-        evidences.append({"file": item, "sha256": digest(candidate)})
-    if 'tdd' in s:
-        from . import tdd
-        tdd.check(root, task, report=report)
+    evidences = checked['evidence_checksums']
     report["evidence_checksums"] = evidences
     atomic_json(p["report"], report)
     s["rotation"]["phase"] = "FINISHED"

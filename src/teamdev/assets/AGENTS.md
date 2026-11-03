@@ -136,3 +136,7 @@ CRG는 코딩 에이전트가 ANALYZE/REVIEW에서 크로스파일 분석이 필
 - Follow **ANALYZE → PLAN → explicit human plan approval → isolated IMPLEMENT → independent VERIFY → REVIEW → explicit human final approval → improve-apply → COMPLETE (activation recorded)**. The existing workflow records COMPLETE before the separate promotion command; treat this as *approved task closure*, not policy activation.
 - Keep proposed edits staged with `teamdev improve-stage`; after `teamdev approve --scope completion` and independent evidence, check `teamdev improve-check` and preview `teamdev improve-apply`; only apply on an explicit human action using `--confirm APPLY --apply`. No self-approval or policy self-edit.
 - See `docs/SELF-IMPROVEMENT.md` for the authoritative gate, limits, and rollback. Do not repeat every procedure in AGENTS.md.
+
+## Worker report input (v0.19.1)
+
+Use `teamdev report-template` → populate actual evidence → `teamdev report-check` → `teamdev report`. `--file` accepts JSON only (`report.md` is for humans). Use separate `implementer-input.json`, not CLI-owned `worker-report.json`; exact status is `implemented`. See `docs/WORKER-REPORT.md`.

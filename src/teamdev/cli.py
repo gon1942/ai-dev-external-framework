@@ -32,6 +32,11 @@ def main(argv=None):
     ap.add_argument("--scope", choices=("plan", "completion"), required=True)
     ap.add_argument("--actor", required=True)
     ap.add_argument("--confirm", required=True)
+    tpl = sub.add_parser('report-template', help='구현 Worker 입력 JSON 템플릿 생성 (기본 출력만, 증거 조작 없음)')
+    tpl.add_argument('task'); tpl.add_argument('--worker', default='implementer')
+    tpl.add_argument('--output', type=Path, help='출력 JSON 경로; 기존 파일은 덮어쓰지 않음')
+    chk = sub.add_parser('report-check', help='등록 전에 입력 JSON·TDD·증거 파일 검사 (읽기 전용)')
+    chk.add_argument('task'); chk.add_argument('--file', type=Path, required=True)
     for cmd in ("report", "verify", "review"):
         p = sub.add_parser(cmd)
         p.add_argument("task")
@@ -171,6 +176,8 @@ def main(argv=None):
     us.add_argument("--apply", action="store_true")
     uwd = sub.add_parser('upgrade-worker-dispatch', help='기존 프로젝트에 Worker 준비/모니터 순서 지침 추가')
     uwd.add_argument('--apply', action='store_true')
+    urc = sub.add_parser('upgrade-report-contract', help='기존 프로젝트에 Worker JSON 보고서 계약 비파괴 병합 (미리보기 기본)')
+    urc.add_argument('--apply', action='store_true')
     uoc = sub.add_parser("upgrade-opencode-config", help="프로젝트 OpenCode 설정을 권장 기본값으로 안전 병합 (미리보기 기본)")
     uoc.add_argument("--apply", action="store_true")
     uds = sub.add_parser("upgrade-document-sources", help="기존 프로젝트에 설계/참고 문서 경로와 선택적 참조 지침 추가 (기본 미리보기)")
@@ -219,6 +226,10 @@ def main(argv=None):
             out = core.approve(root, args.task, args.actor, args.scope, args.confirm)
         elif args.command == "dispatch":
             out = core.dispatch(root, args.task, args.actor)
+        elif args.command == 'report-template':
+            out = core.report_template(root, args.task, args.worker, args.output)
+        elif args.command == 'report-check':
+            out = core.report_check(root, args.task, args.file)
         elif args.command == "report":
             out = core.register_report(root, args.task, args.actor, args.file)
         elif args.command == "verify":
@@ -240,6 +251,8 @@ def main(argv=None):
             out = coordinator_session.status(root, args.task)
         elif args.command == "drive":
             out = orchestrator.drive(root, args.task, args.runtime, execute=args.execute, max_rotations=args.max_rotations)
+        elif args.command == 'upgrade-report-contract':
+            out = migration.upgrade_report_contract(root, args.apply)
         elif args.command == 'upgrade-opencode-config':
             out = migration.upgrade_opencode_config(root, args.apply)
         elif args.command == 'upgrade-document-sources':

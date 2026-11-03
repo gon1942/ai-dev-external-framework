@@ -27,3 +27,7 @@ npx --yes @gon1942/team-ai-dev-framework@0.19.0 cli --project . -- startup
 - `teamdev`를 `PATH` 전역 명령으로 설치하지 않습니다. npm CLI의 `cli --project . -- <command>`를 사용하세요.
 - `.ai-dev/.runtime/`은 로컬 전용이며 Git에 포함하지 않습니다.
 - `--apply` 시 각 업그레이드의 독립적인 안전 검사가 동작하며, 여러 명령을 묶은 전체 롤백은 아직 지원하지 않습니다. 실행 전 Git 상태와 백업을 확인하세요.
+
+### Worker 보고서 JSON 사전검사 (v0.19.1)
+
+`team-ai-dev cli --project . -- report-template TASK-ID --output docs/tasks/TASK-ID/implementer-input.json`로 입력용 JSON 템플릿을 만들고, 실제 증거를 입력한 후 `report-check`를 수행하세요. `report.md`는 CLI 입력이 아닙니다. 기존 Team AI Dev 프로젝트에는 `upgrade --project . --apply` 실행 시 `upgrade-report-contract`가 적용됩니다. 기존 다른 개발 프레임워크의 상태 자동 이관은 지원하지 않습니다.

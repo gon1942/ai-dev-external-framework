@@ -835,3 +835,41 @@ def upgrade_self_improvement(root: Path, apply: bool = False) -> dict:
         return {'applied': bool(actions), 'changes': actions,
                 'backup': str(backup) if backup.exists() else None,
                 'note': '기존 작업/설계/설정 파일은 유지; 승인 없이 개선 정본 반영 없음'}
+
+
+REPORT_INPUT_MARKER = '## Worker report input (v0.19.1)'
+
+def upgrade_report_contract(root: Path, apply: bool = False) -> dict:
+    """Add report contract without overwriting project-specific documents/agents."""
+    root = root.resolve()
+    if not (root / 'AGENTS.md').is_file() or not (root / '.ai-dev/policy.json').is_file():
+        raise core.WorkflowError('먼저 기존 Team AI Dev 프로젝트에서 실행하세요')
+    additions, conflicts = [], []
+    with zipfile.ZipFile(core.TEMPLATE_DIR / 'bundle.zip') as z:
+        for rel in ['AGENTS.md', 'docs/WORKFLOW.md', '.opencode/agents/implementer.md', '.claude/agents/implementer.md']:
+            dest = root / rel
+            if dest.is_file() and REPORT_INPUT_MARKER in dest.read_text(encoding='utf-8'):
+                continue
+            additions.append({'path': rel, 'action': 'append' if dest.is_file() else 'create'})
+        drel = 'docs/WORKER-REPORT.md'
+        doc = root / drel
+        if not doc.is_file():
+            additions.append({'path': drel, 'action': 'create'})
+        elif doc.read_bytes() != z.read(drel):
+            conflicts.append(drel)
+        if not apply:
+            return {'applied': False, 'changes': additions, 'conflicts_preserved': conflicts}
+        backup = root / '.ai-dev/backups' / (datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ') + '-report-contract')
+        for item in additions:
+            dest = root / item['path']
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            content = z.read(item['path']).decode('utf-8')
+            if item['action'] == 'append':
+                previous = dest.read_text(encoding='utf-8')
+                b = backup / item['path']
+                b.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(dest, b)
+                content = previous.rstrip() + '\n\n' + content[content.index(REPORT_INPUT_MARKER):]
+            dest.write_text(content, encoding='utf-8')
+        return {'applied': True, 'changes': additions, 'conflicts_preserved': conflicts,
+                'backup': str(backup) if backup.exists() else None}

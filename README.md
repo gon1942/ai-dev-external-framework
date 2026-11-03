@@ -1,4 +1,4 @@
-# Team AI Dev Framework v0.19.0 — npm / npx Bootstrap
+# Team AI Dev Framework v2.0.0 — npm / npx Bootstrap
 
 v0.18.2 Python workflow 엔진은 유지하고 신규 설치와 기존 프로젝트 적용을 위한 Node.js/npm 실행 계층을 추가했습니다. **npm registry에는 아직 배포하지 않았으며**, npm 배포용 tarball을 제공합니다.
 
@@ -653,3 +653,27 @@ teamdev improve-apply IMPROVE-001 --actor USER --confirm APPLY --apply
 ```
 
 기존 프로젝트에는 `teamdev upgrade-self-improvement`로 미리보기한 뒤 `--apply` 옵션으로 신규 정책 문서 및 AGENTS 지침을 추가합니다. 실제 정본 변경은 별도 승인 게이트를 거칩니다.
+
+## Worker report JSON contract (v0.19.1)
+
+The `teamdev report --file` command accepts JSON, **not** Markdown. The CLI's final
+`docs/tasks/TASK-ID/worker-report.json` is output, not input. Use an independent
+`implementer-input.json` for the Worker-provided values.
+
+```bash
+teamdev --root . report-template TASK-ID --worker implementer --output docs/tasks/TASK-ID/implementer-input.json
+# Complete changed_files and evidence with actual results and logs in evidence/.
+teamdev --root . report-check TASK-ID --file docs/tasks/TASK-ID/implementer-input.json
+teamdev --root . report TASK-ID --actor implementer --file docs/tasks/TASK-ID/implementer-input.json
+teamdev --root . next TASK-ID
+```
+
+The template intentionally has **no evidence** and cannot pass verification until the
+Worker provides real results. `report-check` checks the JSON fields and existing
+evidence without transitioning the task. `report` retains TDD requirements and only
+advances IMPLEMENT → VERIFY on success. Existing Team AI Dev projects may preview
+`teamdev --root . upgrade-report-contract` and explicitly apply with `--apply`;
+existing custom content is preserved and appended text is backed up.
+
+This package is a local build candidate; npm Registry publication and real model-based
+OpenCode/Claude/Codex end-to-end operation are not verified by the local tests.

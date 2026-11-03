@@ -21,4 +21,5 @@ test('upgrade actions include self improvement and document sources',()=>{
   const names=changes('.').map(x=>x.command);
   assert.ok(names.includes('upgrade-self-improvement'));
   assert.ok(names.includes('upgrade-document-sources'));
+  assert.ok(names.includes('upgrade-report-contract'));
 });

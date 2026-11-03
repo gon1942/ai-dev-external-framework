@@ -93,3 +93,7 @@ TDD policy (v0.9): Create tasks with `teamdev new TASK-ID "title" --type feature
 ## 자가개선 정식 반영 (v0.18.2)
 
 개선 후보는 기존 Spec/Plan/TASK 라이프사이클을 따르되, 검증·리뷰·사용자 최종 승인 이전에는 공식 정책 정본을 수정하지 않습니다. 검증된 후보도 자동 반영하지 않으며, `docs/SELF-IMPROVEMENT.md`의 별도 스테이징 및 apply 게이트를 따릅니다.
+
+## Worker report input (v0.19.1)
+
+Use `teamdev report-template` → populate actual evidence → `teamdev report-check` → `teamdev report`. `--file` accepts JSON only (`report.md` is for humans). Use separate `implementer-input.json`, not CLI-owned `worker-report.json`; exact status is `implemented`. See `docs/WORKER-REPORT.md`.
