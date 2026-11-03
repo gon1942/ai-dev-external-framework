@@ -1,0 +1,1 @@
+# 개선 후보\n\n`teamdev improve-propose`로 생성합니다. 후보만으로 정본은 변경되지 않습니다.\n

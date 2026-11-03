@@ -1,0 +1,112 @@
+{
+  "schema": 2,
+  "approach": "common-locked-skills-with-conditional-use",
+  "bundled": [
+    "code-graph-analysis",
+    "context-handoff",
+    "evidence-driven-verification",
+    "task-orchestration",
+    "tdd-workflow",
+    "ui-quality",
+    "worker-activity-monitor"
+  ],
+  "recommended_external": {
+    "general": [
+      "brainstorming",
+      "writing-plans",
+      "test-driven-development",
+      "systematic-debugging",
+      "verification-before-completion",
+      "requesting-code-review"
+    ],
+    "web": [
+      "frontend-design",
+      "web-design-guidelines",
+      "react-best-practices",
+      "playwright-cli"
+    ],
+    "security": [
+      "insecure-defaults",
+      "differential-review"
+    ],
+    "large-repo": [
+      "code-review-graph (upstream optional; routed via code-graph-analysis)"
+    ],
+    "optional": [
+      "dispatching-parallel-agents",
+      "skill-creator"
+    ]
+  },
+  "tools_not_skills": {
+    "RTK": "Optional local CLI plus per-runtime hooks; setup via teamdev tools-setup --tool rtk --runtime <agent> --apply",
+    "Context7": "optional remote docs MCP, disabled unless authorized",
+    "Claude-Mem": "optional memory service, never source of truth",
+    "CRG": "Optional local code-review-graph CLI / MCP, build via teamdev crg-build --apply"
+  },
+  "upstream_policy": "Externally authored upstream originals NOT bundled. Integration equivalents are original framework-authored skills. Replace only through explicit licensed, revision-pinned vendor review. Never call equivalents upstream originals.",
+  "common_skills": [
+    "brainstorming",
+    "code-graph-analysis",
+    "context-handoff",
+    "differential-review",
+    "evidence-driven-verification",
+    "frontend-design",
+    "implement",
+    "insecure-defaults",
+    "playwright-cli",
+    "react-best-practices",
+    "requesting-code-review",
+    "systematic-debugging",
+    "task-orchestration",
+    "tdd-workflow",
+    "test-driven-development",
+    "ui-quality",
+    "verification-before-completion",
+    "web-design-guidelines",
+    "worker-activity-monitor",
+    "writing-plans"
+  ],
+  "profiles": {
+    "core": [
+      "brainstorming",
+      "systematic-debugging",
+      "writing-plans",
+      "test-driven-development",
+      "verification-before-completion",
+      "requesting-code-review",
+      "implement"
+    ],
+    "web": [
+      "frontend-design",
+      "web-design-guidelines",
+      "react-best-practices",
+      "playwright-cli"
+    ],
+    "security": [
+      "insecure-defaults",
+      "differential-review"
+    ]
+  },
+  "skill_provenance": {
+    "brainstorming": "framework-authored-equivalent",
+    "code-graph-analysis": "framework-bundled",
+    "context-handoff": "framework-bundled",
+    "differential-review": "framework-authored-equivalent",
+    "evidence-driven-verification": "framework-bundled",
+    "frontend-design": "framework-authored-equivalent",
+    "implement": "framework-authored-equivalent",
+    "insecure-defaults": "framework-authored-equivalent",
+    "playwright-cli": "framework-authored-equivalent",
+    "react-best-practices": "framework-authored-equivalent",
+    "requesting-code-review": "framework-authored-equivalent",
+    "systematic-debugging": "framework-authored-equivalent",
+    "task-orchestration": "framework-bundled",
+    "tdd-workflow": "framework-bundled",
+    "test-driven-development": "framework-authored-equivalent",
+    "ui-quality": "framework-bundled",
+    "verification-before-completion": "framework-authored-equivalent",
+    "web-design-guidelines": "framework-authored-equivalent",
+    "worker-activity-monitor": "framework-bundled",
+    "writing-plans": "framework-authored-equivalent"
+  }
+}

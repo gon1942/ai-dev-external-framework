@@ -1,0 +1,10 @@
+{
+  "name": "@gon1942/team-ai-dev-framework",
+  "version": "0.19.0",
+  "description": "npx bootstrap for the Team AI Dev Framework Python workflow engine",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "bin": { "team-ai-dev": "bin/team-ai-dev.cjs" },
+  "files": ["bin/", "lib/", "vendor/", "README.md", "LICENSE"],
+  "scripts": { "test": "node --test test/*.test.cjs", "prepack": "node lib/check-bundle.cjs" }
+}

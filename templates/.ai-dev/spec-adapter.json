@@ -1,5 +1,0 @@
-{
-  "mode": "markdown",
-  "source": "docs/product-specs",
-  "note": "Set mode=openspec and source=openspec/changes only if repository uses OpenSpec. Do not duplicate spec content."
-}

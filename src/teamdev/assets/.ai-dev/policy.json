@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "default_profile": "general",
+  "stages": [
+    "ANALYZE",
+    "PLAN",
+    "IMPLEMENT",
+    "VERIFY",
+    "REVIEW",
+    "COMPLETE"
+  ],
+  "human_plan_approval": true,
+  "human_completion_approval": true,
+  "commit_requires_approval": true,
+  "push_requires_approval": true,
+  "external_services_default": "disabled",
+  "verification": {
+    "independent_verifier": true,
+    "independent_reviewer": true,
+    "raw_evidence_required": true,
+    "security_scanning_for_sensitive_changes": true
+  },
+  "parallel_dispatch": {
+    "default": false,
+    "requires_disjoint_scopes": true
+  },
+  "notes": "CLI는 파일 기반 워크플로 도우미이며 접근 제어나 사용자 인증 수단이 아닙니다. 실제 권한은 VCS 보호 규칙/CI/호스트 에이전트 권한으로 강제합니다.",
+  "tdd": {
+    "default_type": "feature",
+    "required_for": [
+      "api",
+      "behavior_change",
+      "bugfix",
+      "business_logic",
+      "feature"
+    ],
+    "conditional_for": [
+      "ui_visual",
+      "configuration",
+      "refactoring"
+    ],
+    "exempt_for": [
+      "documentation"
+    ],
+    "enforcement": "report, verify, completion gates",
+    "evidence": "evidence/tdd-manifest.json + raw logs"
+  }
+}

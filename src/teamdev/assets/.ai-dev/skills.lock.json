@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "version": "0.13.0",
+  "algorithm": "sha256",
+  "skills": {
+    "brainstorming": {
+      "sha256": "257a1f048c309eaf5147b0c4dc710dd55f6a186b3e0c9f9721bc617ea8c176df",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "code-graph-analysis": {
+      "sha256": "2c4b5de40c4b681464917ab3df628f0a091f4771b66237496a3fcd9b9d849ade",
+      "provenance": "framework-bundled",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "context-handoff": {
+      "sha256": "79d4e5ee67a41becd2fb6a155bca013b9e0221f7e7934ef07b68e2d52c7acc29",
+      "provenance": "framework-bundled",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "differential-review": {
+      "sha256": "001ec85de93f8d8653552e711a28d32c77cafa2d9d9a668029aecbac5db798aa",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "evidence-driven-verification": {
+      "sha256": "8b268c27feda503af65b6e8a1d0f88cd0c4da16d27b15607f027a63fdd72dd1a",
+      "provenance": "framework-bundled",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "frontend-design": {
+      "sha256": "bf9d80b83fd01a4ea34daac5174eb6dd440064b806407e57510c3bcb00db1beb",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "implement": {
+      "sha256": "10ce4078e3f0f45d57c18d6bf17b67e6be0443039b511b1713e2a4d853c6b0a8",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "insecure-defaults": {
+      "sha256": "bb7b83dc2641ce4644a9c5d78753cdd7b80d05f324655bb8d96777e4efc84c0f",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "playwright-cli": {
+      "sha256": "37ded841cd8b22d35307af902029c3982ca238ab487c791b2c970932cc462d8b",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "react-best-practices": {
+      "sha256": "a2b3c6070ff372c06ab716d85846887539739c27eccbabddf48a82af975277c7",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "requesting-code-review": {
+      "sha256": "aa8f3c0f8e529632f56bef288caf8b5d7c2ffae855d321f93b2c0529cc5d0f80",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "systematic-debugging": {
+      "sha256": "ff9a22b6ac3d86f62b931e5514d1aa0d5c4c2740e14cff2423adfc715c304463",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "task-orchestration": {
+      "sha256": "214386341cfb4037f66c6b9e63de6e33320f1551e97e88244e5f56192d990a40",
+      "provenance": "framework-bundled",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "tdd-workflow": {
+      "sha256": "008389c8e329df6127ed1a8bf660d9b41ad68ea98594e80421492a8e3188cb24",
+      "provenance": "framework-bundled",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "test-driven-development": {
+      "sha256": "8aa936e8b565672d74548e530fcc41533b744045d899269e2efceecb430b6cb0",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "ui-quality": {
+      "sha256": "28ba3e7ec93bf8d9ca3c30229350a50dc27eb85674418cb0e335aa77ac7af086",
+      "provenance": "framework-bundled",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "verification-before-completion": {
+      "sha256": "df1d4ea7377f955c12bf5e198d792ab97b4681c6d574851cc1340abdaad1d527",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "web-design-guidelines": {
+      "sha256": "609d25c70914cd851d8503f43525a9c57d6c6f052cecc6d365db0e318c43faf7",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "worker-activity-monitor": {
+      "sha256": "642c88fa51725207d164c1133db936d1ba6c095f8e633bdd0f3355b32a910c23",
+      "provenance": "framework-bundled",
+      "source": "teamdev-package-v0.13.0"
+    },
+    "writing-plans": {
+      "sha256": "9e2f355b136fc0a93ae972a6e8fe8d994af63888100fd42d12bc8142f3766b9b",
+      "provenance": "framework-authored-equivalent",
+      "source": "teamdev-package-v0.13.0"
+    }
+  }
+}

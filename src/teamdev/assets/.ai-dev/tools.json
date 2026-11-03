@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "policy": "optional-local-tools; explicit setup; no automatic downloads; preserve original verification evidence",
+  "rtk": {
+    "required": false,
+    "default_use": "when installed and initialized for the relevant native agent",
+    "runtimes": ["opencode", "claude", "codex"],
+    "scope": "per developer user-global hooks, never auto-write during teamdev init",
+    "full_logs": "write uncompressed raw stdout and stderr with exit code for verification"
+  },
+  "crg": {
+    "required": false,
+    "trigger": ["large-repository analysis", "impact analysis", "cross-file refactor", "architecture review", "security-sensitive review"],
+    "stages": ["ANALYZE", "PLAN", "REVIEW"],
+    "graph": "project local, refresh when source changes; freshness never assumed",
+    "fallback": "native repository search, read source files, run tests"
+  }
+}

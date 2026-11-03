@@ -1,0 +1,15 @@
+# Codex CLI multi-agent role routing (availability depends on installed Codex build)
+[features]
+multi_agent = true
+
+[agents.implementer]
+description = "Implements approved task via TDD; registers report before return"
+config_file = "agents/implementer.toml"
+
+[agents.verifier]
+description = "Independently executes approved verification and registers actual evidence"
+config_file = "agents/verifier.toml"
+
+[agents.reviewer]
+description = "Independently reviews implementation and registers review findings"
+config_file = "agents/reviewer.toml"
